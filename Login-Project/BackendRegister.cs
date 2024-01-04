@@ -1,0 +1,340 @@
+﻿using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
+
+namespace Login_Project
+{
+    public class BackendRegister
+    {
+        public static MainWindow wnd;
+
+        public static List<User> registerUser = new List<User>();
+
+        public static bool UserIsUnique = true;
+
+        public static void TryRegister(Register register, MainWindow main)
+        {
+            wnd = main;
+
+            string User = register.TextBoxBenutzer.Text;
+            string Email = register.TextBoxEmail.Text;
+            string Password = register.TextBoxPasswort.Password;
+            string PasswordAgain = register.TextBoxPasswortBestätigung.Password;
+
+            foreach (User user in registerUser)
+            {
+                if (user.Username == User)
+                {
+                    UserIsUnique = false;
+                    MessageBox.Show("Der Benutzer existiert schon.", "Fehler");
+                    register.TextBoxBenutzer.Clear();
+                    register.TextBoxBenutzer.Focus();
+                }
+                else if (user.Email == Email)
+                {
+                    UserIsUnique = false;
+                    MessageBox.Show("Die Email-Adresse existiert schon.", "Fehler");
+                    register.TextBoxEmail.Clear();
+                    register.TextBoxEmail.Focus();
+                }
+            }
+
+            bool arePasswordsValid = Password == PasswordAgain;
+
+            if (!arePasswordsValid)
+            {
+                MessageBox.Show("Passwörter stimmen nicht überein.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                register.TextBoxPasswort.Clear();
+                register.TextBoxPasswortBestätigung.Clear();
+                register.TextBoxPasswort.Focus();
+                return;
+            }
+
+            bool areConditionsMet = PasswordCondition(register);
+
+            if (!areConditionsMet)
+            {
+                MessageBox.Show("Fehler bei der Passwortrücksetzung. Bitte überprüfen Sie die eingegebenen Daten.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
+                register.TextBoxPasswort.Clear();
+                register.TextBoxPasswortBestätigung.Clear();
+                register.TextBoxPasswort.Focus();
+            }
+
+            if (!UserValid(User))
+            {
+                MessageBox.Show("Ungültiger Benutzername.", "Fehler");
+                register.TextBoxBenutzer.Clear();
+                register.TextBoxBenutzer.Focus();
+                return;
+            }
+
+            if (!EmailValid(Email))
+            {
+                MessageBox.Show("Ungültige Email-Adresse.", "Fehler");
+                register.TextBoxEmail.Clear();
+                register.TextBoxEmail.Focus();
+                return;
+            }
+
+            User newUser = new User
+            {
+                Username = User,
+                Email = Email,
+                Password = EncryptPassword(Password),
+                Status = "Benutzer",
+                Sicherheitsgruppe = "Mitarbeiter"
+            };
+
+
+            if (UserIsUnique && PasswordCondition(register))
+            {
+                MessageBox.Show("Registrierung erfolgreich.");
+                registerUser.Add(newUser);
+                CSVWrite();
+
+                wnd.content.Content = new Login(wnd);
+                wnd.login.TextBoxBenutzerEmail.Text = register.TextBoxBenutzer.Text;
+            }
+        }
+
+        public static bool UserValid(string input)
+        {
+            string usernamePattern = "^[a-zA-Z0-9]+$";
+            return Regex.IsMatch(input, usernamePattern);
+        }
+
+        public static bool EmailValid(string username)
+        {
+            string pattern = @"^\w+@\w+\.\w+$";
+            return Regex.IsMatch(username, pattern, RegexOptions.IgnoreCase);
+        }
+
+        public static string EncryptPassword(string password)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] passwordBytes = Encoding.UTF8.GetBytes(password);
+                byte[] hashedBytes = sha256.ComputeHash(passwordBytes);
+
+                return Convert.ToBase64String(hashedBytes);
+            }
+        }
+
+        public static void CSVWrite()
+        {
+            string dateiPfad = "C:\\Login-Project/benutzerdaten.csv";
+
+            using (StreamWriter sw = new StreamWriter(dateiPfad, false))
+            {
+                sw.Write("");
+            }
+
+            foreach (User u in registerUser)
+            {
+                using (StreamWriter sw = new StreamWriter(dateiPfad, true))
+                {
+                    sw.WriteLine(u.Username + "," + u.Email + "," + u.Status + "," + u.Sicherheitsgruppe + "," + u.Password);
+                }
+            }
+        }
+
+        public static bool PasswordCondition(Register register)
+        {
+            string Passwort = register.TextBoxPasswort.Password;
+            string PasswordBestätigung = register.TextBoxPasswortBestätigung.Password;
+            string Sonderzeichen = "!$@#%^&+=";
+
+            register.ButtonRegister.IsEnabled = !string.IsNullOrEmpty(register.TextBoxPasswort.Password)
+                                             && !string.IsNullOrEmpty(register.TextBoxPasswortBestätigung.Password);
+
+            if (Passwort != PasswordBestätigung)
+            {
+                register.labelPasswortÜbereinstimmung.Foreground = Brushes.Red;
+            }
+            else if (PasswordBestätigung != Passwort)
+            {
+                register.labelPasswortÜbereinstimmung.Foreground = Brushes.Red;
+            }
+            else
+            {
+                register.labelPasswortÜbereinstimmung.Visibility = Visibility.Collapsed;
+            }
+
+            bool hasUppercase = Passwort.Any(char.IsUpper);
+            bool hasLowercase = Passwort.Any(char.IsLower);
+            bool hasDigit = Passwort.Any(char.IsDigit);
+            bool isLengthValid = Passwort.Length >= 6 && Passwort.Length <= 20;
+            bool hasSpecialCharacter = Passwort.Any(Sonderzeichen.Contains);
+
+            if (hasUppercase)
+            {
+                register.labelGroßbuchstaben.Foreground = Brushes.Black;
+            }
+            else
+            {
+                register.labelGroßbuchstaben.Foreground = Brushes.Red;
+            }
+
+            if (hasLowercase)
+            {
+                register.labelKleinbuchstaben.Foreground = Brushes.Black;
+            }
+            else
+            {
+                register.labelKleinbuchstaben.Foreground = Brushes.Red;
+            }
+
+            if (hasDigit)
+            {
+                register.labelZahlen.Foreground = Brushes.Black;
+            }
+            else
+            {
+                register.labelZahlen.Foreground = Brushes.Red;
+            }
+
+            if (isLengthValid)
+            {
+                register.labelLänge.Foreground = Brushes.Black;
+            }
+            else
+            {
+                register.labelLänge.Foreground = Brushes.Red;
+            }
+
+            if (hasSpecialCharacter)
+            {
+                register.labelSonderzeichen.Foreground = Brushes.Black;
+            }
+            else
+            {
+                register.labelSonderzeichen.Foreground = Brushes.Red;
+            }
+
+            return hasUppercase && hasLowercase && hasDigit && isLengthValid && hasSpecialCharacter;
+        }
+
+        public static bool UserCondition(Register register)
+        {
+            string Benutzer = register.TextBoxBenutzer.Text;
+
+            foreach (User user in registerUser)
+            {
+                if (user.Username == Benutzer)
+                {
+                    if (register.labelBenutzerExistiert != null)
+                    {
+                        register.labelBenutzerExistiert.Visibility = Visibility.Visible;
+                    }
+                    return false;
+                }
+            }
+
+            if (register.labelBenutzerExistiert != null)
+            {
+                register.labelBenutzerExistiert.Visibility = Visibility.Collapsed;
+            }
+
+            return true;
+        }
+
+        public static bool EmailCondition(Register register)
+        {
+            if (registerUser == null)
+            {
+                return false;
+            }
+
+            string emailAdresse = register.TextBoxEmail.Text;
+
+            foreach (User user in registerUser)
+            {
+                if (user.Email == emailAdresse)
+                {
+                    if (register.labelEmailExistiert != null)
+                    {
+                        register.labelEmailExistiert.Visibility = Visibility.Visible;
+                    }                    
+                    return false;
+                }
+            }
+
+            if (!emailAdresse.Contains("@"))
+            {
+                if (register.labelAT != null)
+                {
+                    register.labelAT.Foreground = Brushes.Red;
+                }
+                return false;
+            }
+            else
+            {
+                if (register.labelAT != null)
+                {
+                    register.labelAT.Foreground = Brushes.Black;
+                }
+            }
+
+            if (!emailAdresse.Contains("."))
+            {
+                if (register.labelPunkt != null)
+                {
+                    register.labelPunkt.Foreground = Brushes.Red;
+                }
+                return false;
+            }
+            else
+            {
+                if (register.labelPunkt != null)
+                {
+                    register.labelPunkt.Foreground = Brushes.Black;
+                }
+            }
+
+            if (register.labelEmailExistiert != null)
+            {
+                register.labelEmailExistiert.Visibility = Visibility.Collapsed;
+            }
+
+            return true;
+        }
+
+        public static void ButtonRegsiterEnabled(Register register)
+        {
+            string Benutzer = register.TextBoxBenutzer.Text;
+            string Email = register.TextBoxEmail.Text;
+            string pwd1 = register.TextBoxPasswort.Password;
+            string pwd2 = register.TextBoxPasswortBestätigung.Password;
+
+            bool areTextboxesFilled = !string.IsNullOrEmpty(Benutzer) &&
+                                      !string.IsNullOrEmpty(Email) &&
+                                      !string.IsNullOrEmpty(pwd1) &&
+                                      !string.IsNullOrEmpty(pwd2);
+
+            bool isBenutzerUnique = UserCondition(register);
+            bool isEmailUnique = EmailCondition(register);
+
+            bool doPasswordsMatch = pwd1 == pwd2;
+
+            register.ButtonRegister.IsEnabled = areTextboxesFilled && isBenutzerUnique && isEmailUnique && doPasswordsMatch;
+        }
+    }
+
+    public class User
+    {
+        public string Username { get; set; }
+        public string Password { get; set; }
+        public string Email { get; set; }
+        public string Status { get; set; }
+        public string Sicherheitsgruppe { get; set; }
+    }
+}

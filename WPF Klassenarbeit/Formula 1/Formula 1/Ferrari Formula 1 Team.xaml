@@ -1,0 +1,362 @@
+﻿<UserControl x:Class="Formula_1.Ferrari_Formula_1_Team"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Formula_1"
+             mc:Ignorable="d" 
+             d:DesignHeight="770" d:DesignWidth="970">
+    <Border BorderThickness="5" CornerRadius="3" BorderBrush="Red">
+        <Grid Background="DarkRed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Border Background="Black" BorderBrush="Black" BorderThickness="2">
+                <TextBlock FontFamily="Times New Roman" Text="Ferrari Formula One Team" Foreground="Red" FontSize="24" FontWeight="Heavy" VerticalAlignment="Center" HorizontalAlignment="Center"></TextBlock>
+            </Border>
+
+            <DockPanel Grid.Row="0" Grid.ColumnSpan="4" Background="Black" >
+                <Image Source="/Ferrari Bilder/logq.png" Height="45" Width="116" HorizontalAlignment="Left" VerticalAlignment="Center"></Image>
+                <TextBlock DockPanel.Dock="Bottom" Margin="0 -37 0 0" Text="Ferrari Formula One Team by Bassel Hamadeh" Width="360" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="15" FontWeight="Heavy" Foreground="Yellow"></TextBlock>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
+                    <Button BorderBrush="Red" Name="minimeren" FontWeight="Heavy" Foreground="Yellow" Background="Black" Content="🗕" FontSize="20" VerticalContentAlignment="Center" Width="40" Height="30" Margin="0 0 7 0" Click="minimeren_Click">
+                        <Button.ToolTip>
+                            <StackPanel>
+                                <TextBlock Text="Minimieren"></TextBlock>
+                            </StackPanel>
+                        </Button.ToolTip>
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button BorderBrush="Red" Name="maximieren" FontWeight="Heavy" Foreground="Yellow" Background="Black" Content="🗖" FontSize="20" VerticalContentAlignment="Center" Width="40" Height="30" Margin="0 0 7 0" Click="maximieren_Click">
+                        <Button.ToolTip>
+                            <StackPanel>
+                                <TextBlock Text="Verkleinern"></TextBlock>
+                            </StackPanel>
+                        </Button.ToolTip>
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                    <Button BorderBrush="Red" Name="schließen" FontWeight="Heavy" Foreground="Yellow" Background="Black" Content="❌" FontSize="20" VerticalContentAlignment="Center" Width="40" Height="30" Click="schließen_Click">
+                        <Button.ToolTip>
+                            <StackPanel>
+                                <TextBlock Text="Schließen"></TextBlock>
+                            </StackPanel>
+                        </Button.ToolTip>
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="CornerRadius" Value="4"></Setter>
+                            </Style>
+                        </Button.Resources>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+
+            <Border BorderBrush="White" BorderThickness="2" Grid.Row="1" Grid.ColumnSpan="4" Grid.RowSpan="2">
+                <ContentControl Name="content">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+                        <Grid Grid.Row="1">
+                            <TabControl Background="DarkRed">
+                                <TabItem Header="Ferrari Home" Width="140" Height="30">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition Height="40"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Border BorderBrush="Black" BorderThickness="4" Margin="7" Name="FerrariHome" CornerRadius="7" Grid.Row="0" Visibility="Visible">
+                                            <StackPanel>
+                                                <Image Source="/Ferrari Bilder/logo.png" Height="170" Width="140" Margin="0 20 0 0"></Image>
+                                                <TextBlock Text="F  e  r" Foreground="Yellow" FontSize="40" FontWeight="Heavy" HorizontalAlignment="Left" Margin="7 -120 0 70" TextDecorations="Underline"></TextBlock>
+                                                <TextBlock Text="r  a  r  i" Margin="0 -120 7 70" Foreground="Yellow" FontSize="40" FontWeight="Heavy" HorizontalAlignment="Right" TextDecorations="Underline"></TextBlock>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <Border Grid.Column="1" Margin="7" BorderBrush="Black" BorderThickness="4" CornerRadius="7" Grid.Row="0" Name="FerrariNews" Visibility="Visible">
+                                            <StackPanel>
+                                                <TextBlock Text="Ferrari Formula One Nachrichten" Height="30" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Heavy" FontSize="17"></TextBlock>
+                                                <ListBox Background="Black" Height="162" Margin="10 0 10 0" FontFamily="Arial" FontWeight="Bold" Foreground="Red" FontSize="20">
+                                                    <ListBoxItem Content="Ferrari präsentiert neues Auto für die F1-Saison 2023."></ListBoxItem>
+                                                    <ListBoxItem Content="Ferrari gibt bekannt, dass der Mick Schumacher die Ferrari Driver Academy verlässt."></ListBoxItem>
+                                                    <ListBoxItem Content="Ferrari hat für die Saison 2023 eine neue Motorenentwicklung angekündigt."></ListBoxItem>
+                                                    <ListBoxItem Content="Charles Leclerc und Carlos Sainz haben ihre Veträge bei Ferrari verlängert."></ListBoxItem>
+                                                    <ListBoxItem Content="Ferrari hat in dieser Saison bisher keine Pole-Position und kein Sieg erzielt."></ListBoxItem>
+                                                    <ListBoxItem Content="Mattia Binotto verlässt das Team."></ListBoxItem>
+                                                    <ListBoxItem Content="Frederik Vasseur übernimmt seine Rolle als Team Prinicipal."></ListBoxItem>
+                                                </ListBox>
+                                            </StackPanel>
+                                        </Border>
+
+                                        <ScrollViewer Margin="7" Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="2">
+                                            <Border BorderBrush="Black" BorderThickness="4" CornerRadius="7" Name="FerrariSF23" Visibility="Visible">
+                                                <StackPanel>
+                                                    <TextBlock Text="Ferrari SF-23" Foreground="White" TextDecorations="Underline" Height="30" VerticalAlignment="Top" HorizontalAlignment="Center" FontWeight="Heavy" FontSize="17"></TextBlock>
+                                                    <Image Source="/Ferrari Bilder/SF231.png" Visibility="Visible" Height="670" Name="SF231"></Image>
+                                                    <Image Source="/Ferrari Bilder/SF232.jpg" Visibility="Collapsed" Height="670" Name="SF232"></Image>
+                                                    <Image Source="/Ferrari Bilder/SF233.jpg" Visibility="Collapsed" Height="670" Name="SF233"></Image>
+
+                                                    <Button Content="❯" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0 -640 0 0" FontSize="40" BorderBrush="Transparent" Background="Transparent" Foreground="White" Name="rechtsklick" ClickMode="Press" Click="rechtsklick_Click"></Button>
+                                                    <Button Content="❮" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="0 -640 0 0" FontSize="40" BorderBrush="Transparent" Background="Transparent" Foreground="White" Name="linksklick" ClickMode="Press" Click="linksklick_Click"></Button>
+                                                </StackPanel>
+                                            </Border>
+                                        </ScrollViewer>
+
+                                        <StackPanel Grid.Row="3" Grid.ColumnSpan="2">
+                                            <Button Name="hauptmenü" Content="Hauptmenü Teamauswahl" FontWeight="ExtraBlack" Foreground="Yellow" Background="Transparent" BorderThickness="4" BorderBrush="Black" FontSize="20" ClickMode="Press" Click="hauptmenü_Click"></Button>
+                                        </StackPanel>
+
+
+                                    </Grid>
+                                </TabItem>
+                                <TabItem Header="Scuderia Ferrari Fahrer" Width="200">
+                                    <Grid Background="DarkRed">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="97*"></ColumnDefinition>
+                                            <ColumnDefinition Width="379*"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"></RowDefinition>
+                                            <RowDefinition Height="*"></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <StackPanel Orientation="Horizontal" Margin="10" Grid.ColumnSpan="2">
+                                            <TextBlock Text="ausgewählten Fahrer:" Margin="0 0 10 0" FontSize="17" FontWeight="Black"></TextBlock>
+                                            <ComboBox Name="FahrerCombo" Width="150" SelectionChanged="FahrerCombo_SelectionChanged"></ComboBox>
+                                        </StackPanel>
+
+                                        <Image Source="/Ferrari Bilder/logocharles.png" Name="charleslogo" Visibility="Collapsed" Height="200" Width="270" VerticalAlignment="Top" Margin="0,36,110,0" HorizontalAlignment="Right" Grid.Column="1" Grid.RowSpan="2"/>
+                                        <Image Source="/Ferrari Bilder/logocarlos.png" Name="carloslogo" Visibility="Collapsed" Height="200" Width="270" VerticalAlignment="Top" Margin="0,36,110,0" HorizontalAlignment="Right" Grid.Column="1" Grid.RowSpan="2"/>
+
+                                        <Image Source="/Ferrari Bilder/signleclerc.jpg" Name="signcharles" HorizontalAlignment="Right" Grid.Row="1" Height="200" Width="400" Visibility="Collapsed" Margin="0,300,70,130" Grid.Column="1"></Image>
+                                        <Image Source="/Ferrari Bilder/signcarlos.png" Name="signcarlos" HorizontalAlignment="Right" Grid.Row="1" Height="220" Width="270" Visibility="Collapsed" Margin="0,290,100,120" Grid.Column="1"></Image>
+
+                                        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <StackPanel Width="520" Grid.Column="1" VerticalAlignment="Bottom" Margin="0 0 970 640">
+                                                <TextBlock Text="Fahrer Statistik" Foreground="Yellow" TextDecorations="Underline" FontWeight="Bold" FontSize="30" Margin="0 0 0 30"></TextBlock>
+                                                <TextBlock Name="AnzahlRennen" Text="Rennen:" Foreground="Black" FontSize="24" FontWeight="Bold" Margin="0 0 420 10"></TextBlock>
+                                                <TextBlock Name="AnzahlRennenT" Foreground="Black" HorizontalAlignment="Right" FontSize="24" FontWeight="Bold" Margin="200 -35 181 0"></TextBlock>
+                                                <TextBlock Name="GesamtSiege" Text="Siege:" FontSize="24" FontWeight="Bold" Foreground="Black" Margin="0 0 430 10"></TextBlock>
+                                                <TextBlock Name="GesamtSiegeT" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center" Foreground="Black" Margin="200 -40 70 0"></TextBlock>
+                                                <TextBlock Name="AnzahlPunkte" Text="Punkte:" FontSize="24" FontWeight="Bold" Foreground="Black" Margin="0 0 420 10"></TextBlock>
+                                                <TextBlock Name="AnzahlPunkteT" FontSize="24" FontWeight="Bold" Foreground="Black" Margin="200 -40 70 0" HorizontalAlignment="Center"></TextBlock>
+                                                <TextBlock Name="PolePosition" Text="Poles:" FontSize="24" FontWeight="Bold" Foreground="Black" Margin="0 0 430 10"></TextBlock>
+                                                <TextBlock Name="PolePositionT" FontSize="24" FontWeight="Bold" Foreground="Black" Margin="200 -40 70 0" HorizontalAlignment="Center"></TextBlock>
+                                                <TextBlock Name="SchelleRunden" Text="Fastest Laps:" FontSize="24" FontWeight="Bold" Foreground="Black" Margin="0 0 340 10"></TextBlock>
+                                                <TextBlock Name="SchelleRundenT" FontSize="24" FontWeight="Bold" Foreground="Black" Margin="200 -40 72 0" HorizontalAlignment="Center"></TextBlock>
+                                            </StackPanel>
+
+                                            <Border Grid.Column="0" Grid.ColumnSpan="2" Width="350" HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="7">
+                                                <StackPanel>
+                                                    <TextBlock Text="Fahrerprofil" FontWeight="Bold" HorizontalAlignment="Center" FontSize="20" Foreground="Yellow" Margin="0 0 0 20"></TextBlock>
+                                                    <Image Source="/Ferrari Bilder/carlos.png" Name="carlos" Visibility="Collapsed" HorizontalAlignment="Center" Height="230" Width="300"></Image>
+                                                    <Image Source="/Ferrari Bilder/charles.png" Name="charles" Visibility="Collapsed" HorizontalAlignment="Center" Height="230" Width="300"></Image>
+                                                    <TextBlock Text="Name:"  FontWeight="Heavy" Foreground="Yellow" HorizontalAlignment="Left" FontSize="17" Margin="4 10 10 10"></TextBlock>
+                                                    <TextBlock Name="Name" FontWeight="Heavy" HorizontalAlignment="Center" FontSize="17" Margin="10 10 10 10"></TextBlock>
+                                                    <TextBlock Text="Nation:" FontWeight="Heavy" HorizontalAlignment="Left" Foreground="Yellow" FontSize="17" Margin="4 10 10 10"></TextBlock>
+                                                    <TextBlock Name="Nation" FontSize="17" FontWeight="Heavy" HorizontalAlignment="Center" Margin="10 10 10 10"></TextBlock>
+                                                    <TextBlock Text="Steckbrief:" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left" Foreground="Yellow" Margin="4 10 0 5"></TextBlock>
+                                                    <TextBlock Name="fahrerstackbrief" Margin="7 7 7 7" FontSize="14" HorizontalAlignment="Center" FontWeight="Bold" VerticalAlignment="Top" TextWrapping="Wrap"></TextBlock>
+                                                    <Image Name="monaco" Source="/Ferrari Bilder/monaco.png" Visibility="Collapsed" Height="170" Width="270" Margin="0 60 0 0"></Image>
+                                                    <Image Name="spanien" Source="/Ferrari Bilder/spanien.png" Visibility="Collapsed" Height="200" Width="250" Margin="0 60 0 0"></Image>
+                                                </StackPanel>
+                                            </Border>
+                                        </Grid>
+                                    </Grid>
+                                </TabItem>
+                                <Grid>
+
+                                </Grid>
+                                <TabItem Header="Ferrari Handy" Margin="-12 0 0 0">
+                                    <Grid Background="Red">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+
+                                        <TextBlock Name="zahlen" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="40" Grid.ColumnSpan="2" FontWeight="Heavy" Margin="240 60 0 0" Foreground="White" Grid.Column="1"></TextBlock>
+
+                                        <TextBlock Visibility="Collapsed" Name="sechsmaldienull" Text="Der Code ist: 0 0 0 0 0 0" Height="50" Width="240" Foreground="White" FontSize="20"></TextBlock>
+
+                                        <Border Grid.RowSpan="2" Grid.Column="1" BorderBrush="Black" BorderThickness="4" CornerRadius="40" Height="570" Width="270">
+                                            <Grid Background="Red" Visibility="Visible">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                    <ColumnDefinition></ColumnDefinition>
+                                                </Grid.ColumnDefinitions>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                    <RowDefinition></RowDefinition>
+                                                </Grid.RowDefinitions>
+
+                                                <ContentControl Name="CTN" Grid.RowSpan="4" Grid.Row="1" Visibility="Visible" Grid.ColumnSpan="3"></ContentControl>
+
+                                                <ContentControl Name="code" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="4" Visibility="Collapsed"></ContentControl>
+                                                <Border Grid.Row="5" Grid.ColumnSpan="3" BorderBrush="Black" Background="Black" CornerRadius="30" Height="90" Margin="-1" VerticalAlignment="Bottom">
+                                                    <Image Source="/Ferrari Bilder/logo.png" Height="80" Width="70"></Image>
+                                                </Border>
+
+                                                <Button Content="" IsHitTestVisible="False" BorderBrush="Transparent" Grid.Row="5" Grid.Column="1" Background="Transparent" Name="home"></Button>
+
+                                                <Button IsHitTestVisible="False" Background="Black" Grid.ColumnSpan="3" BorderBrush="Transparent" Height="30" Width="237" Margin="0 65 0 0"></Button>
+                                                <Button IsHitTestVisible="False" Background="Black" Grid.ColumnSpan="3" BorderBrush="Transparent" Height="30" Width="43" Margin="-222 65 0 0"></Button>
+                                                <Button IsHitTestVisible="False" Background="Black" Grid.ColumnSpan="3" BorderBrush="Transparent" Height="30" Width="43" Margin="222 65 0 0"></Button>
+
+                                                <Line X1="0" Y1="0" X2="270" Y2="0" Grid.Row="1" VerticalAlignment="Top" Stroke="Black" StrokeThickness="17" Grid.ColumnSpan="3"></Line>
+
+                                                <Border Grid.ColumnSpan="3" BorderBrush="Black" Background="Black" CornerRadius="30" Height="90" VerticalAlignment="Top">
+                                                </Border>
+
+                                                <Button IsHitTestVisible="False" Background="Black" Grid.ColumnSpan="3" Grid.Row="5" BorderBrush="Transparent" Height="30" Width="43" Margin="220 -60 0 0"></Button>
+
+                                                <Button IsHitTestVisible="False" Background="Black" Grid.ColumnSpan="3" Grid.Row="5" BorderBrush="Transparent" Height="30" Width="43" Margin="-222 -60 0 0"></Button>
+
+                                                <Line X1="0" Y1="0" X2="270" Y2="0" Grid.Row="5" VerticalAlignment="Top" Stroke="Black" StrokeThickness="10" Grid.ColumnSpan="3"></Line>
+
+                                                <Label Name="uhrzeit" Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="3" Height="40" Width="100" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" FontWeight="Heavy" FontSize="20"></Label>
+
+                                                <Button Grid.ColumnSpan="3" Grid.Row="4" Background="Transparent" BorderBrush="Transparent" Content="Zum Entsperren Hier drücken" FontWeight="Heavy" Foreground="White" Name="Code" Click="Code_Click"></Button>
+
+                                                <TextBlock Text="Code eingeben" Visibility="Collapsed" Grid.Row="1" Grid.ColumnSpan="3" FontSize="20" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+
+                                                <Button Name="eins" Visibility="Collapsed" Click="eins_Click"  FontWeight="Bold" Content="1" Grid.Row="1" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="zwei" Visibility="Collapsed" Click="zwei_Click"  FontWeight="Bold" Content="2" Grid.Row="1" Grid.Column="1" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="drei" Visibility="Collapsed" Click="drei_Click"  FontWeight="Bold" Content="3" Grid.Row="1" Grid.Column="2" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="vier" Visibility="Collapsed" Click="vier_Click"  FontWeight="Bold" Content="4" Grid.Row="2" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="fünf" Visibility="Collapsed" Click="fünf_Click"  FontWeight="Bold" Content="5" Grid.Row="2" Grid.Column="1" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="sechs" Visibility="Collapsed" Click="sechs_Click"  FontWeight="Bold" Content="6" Grid.Row="2" Grid.Column="3" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="sieben" Visibility="Collapsed" Click="sieben_Click"  FontWeight="Bold" Content="7" Grid.Row="3" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="acht" Visibility="Collapsed" Click="acht_Click"  FontWeight="Bold" Content="8" Grid.Row="3" Grid.Column="1" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="neun" Visibility="Collapsed" Click="neun_Click"  FontWeight="Bold" Content="9" Grid.Row="3" Grid.Column="2" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="NNull" Visibility="Collapsed" Click="NNull_Click"  FontWeight="Bold" Content="0" Grid.Row="4" Grid.Column="1" Foreground="Black" FontSize="30" Background="#666666" Height="50" Width="60" BorderBrush="Black" BorderThickness="2">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+
+                                                <Button Name="richtig" Visibility="Collapsed" Grid.Row="4" Grid.Column="2" Click="richtig_Click"  FontWeight="Bold" Content="✓" Foreground="Black" FontSize="30" Background="DarkGreen" Height="50" Width="60">
+                                                    <Button.Resources>
+                                                        <Style TargetType="Border">
+                                                            <Setter Property="CornerRadius" Value="100"></Setter>
+                                                        </Style>
+                                                    </Button.Resources>
+                                                </Button>
+                                            </Grid>
+                                        </Border>
+                                    </Grid>
+                                </TabItem>
+                            </TabControl>
+                        </Grid>
+                    </Grid>
+                </ContentControl>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

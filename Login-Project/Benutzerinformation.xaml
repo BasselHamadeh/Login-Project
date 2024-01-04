@@ -1,0 +1,66 @@
+﻿<UserControl x:Class="Login_Project.UserInformation"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Login_Project"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Background="#e8eef0">
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label Name="labelBenutzerinfo" Content="Benutzerinformation" Height="40" Width="220" VerticalAlignment="Top" Grid.ColumnSpan="3" FontWeight="Heavy" FontSize="20"></Label>
+
+        <Label Name="labelBenutzername" Grid.Row="1" Grid.Column="1" Height="40" Width="170" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" FontSize="20">
+            <TextBlock Text="Benutzername:" TextDecorations="Underline"></TextBlock>
+        </Label>
+        <Label Name="labelEmail" Grid.Row="2" Grid.Column="1" Height="40" Width="160" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" FontSize="20">
+            <TextBlock Text="Email-Adresse:" TextDecorations="Underline"></TextBlock>
+        </Label>
+        <Label Name="labelPasswort" Grid.Row="3" Grid.Column="1" Height="40" Width="240" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" FontSize="20">
+            <TextBlock Text="Passwort (verschlüsselt):" TextDecorations="Underline"></TextBlock>
+        </Label>
+        <Label Name="labelGruppe" Grid.Row="4" Grid.Column="1" Height="40" Width="190" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" FontSize="20">
+            <TextBlock Text="Sicherheitsgruppe:" TextDecorations="Underline"></TextBlock>
+        </Label>
+        <Label Name="labelStatus" Grid.Row="5" Grid.Column="1" Height="40" Width="80" VerticalAlignment="Center" HorizontalAlignment="Left" FontWeight="Bold" FontSize="20">
+            <TextBlock Text="Status:" TextDecorations="Underline"></TextBlock>
+        </Label>
+
+        <Label Name="labelBenutzernameA" Grid.Row="1" Grid.Column="2" Foreground="#007F9c" Height="40" Width="170" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="17" VerticalContentAlignment="Center"></Label>
+        <Label Name="labelEmailA" Grid.Row="2" Grid.Column="2" Height="40" Foreground="#007F9c" Width="170" HorizontalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="17" VerticalContentAlignment="Center"></Label>
+        <Label Name="labelPasswortA" Grid.Row="3" Grid.Column="2" Height="40" Foreground="#007F9c" Width="390" VerticalAlignment="Center" HorizontalContentAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="17" VerticalContentAlignment="Center"></Label>
+        <Label Name="labelGruppeA" Grid.Row="4" Grid.Column="2" Height="40" Foreground="#007F9c" Width="170" VerticalAlignment="Center" HorizontalAlignment="Center" HorizontalContentAlignment="Center" FontWeight="Bold" FontSize="17" VerticalContentAlignment="Center"></Label>
+        <Label Name="labelStatusA" Grid.Row="5" Grid.Column="2" Height="40" Width="170" Foreground="#007F9c" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" FontSize="17" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"></Label>
+
+
+        <Button Name="ButtonBack" Height="30" Width="40" Grid.Column="1" Grid.Row="1" Margin="0 -30 0 0" BorderBrush="Transparent" VerticalAlignment="Top" HorizontalAlignment="Left" Click="ButtonBack_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/Bilder/Zurück.png"></ImageBrush>
+            </Button.Background>
+        </Button>
+
+        <Button Name="ButtonHauptmenü" Height="40" Width="50" VerticalAlignment="Bottom" BorderBrush="Transparent" Grid.ColumnSpan="3" Grid.Row="6" HorizontalAlignment="Center" Click="ButtonHauptmenü_Click">
+            <Button.Background>
+                <ImageBrush ImageSource="/Bilder/Menu.png"></ImageBrush>
+            </Button.Background>
+        </Button>
+  
+    </Grid>
+</UserControl>

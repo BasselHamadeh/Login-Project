@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="Login_Project.Register"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Login_Project"
+             mc:Ignorable="d" 
+             d:DesignHeight="650" d:DesignWidth="800"
+             Loaded="UserControl_Loaded">
+    <Grid Background="#e8eef0">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="10"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Label Name="labelRegister" Content="Regsitrieren" FontWeight="Bold" FontSize="16" VerticalAlignment="Top" Grid.ColumnSpan="3" HorizontalAlignment="Center"></Label>
+
+        <Label Name="labelBenutzername" Content="Benutzername :" FontWeight="Bold" FontSize="16" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="10 0 0 0"></Label>
+        <Label Name="labelEmail" Content="Email-Adresse :" FontWeight="Bold" FontSize="16" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="10 0 0 0"></Label>
+        <Label Name="labelPasswort" Content="Passwort :" FontWeight="Bold" FontSize="16" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" Margin="10 0 0 0"></Label>
+        <Label Name="labelPasswortBestätigung" Content="Passwort bestätigen :" FontWeight="Bold" FontSize="16" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" Margin="10 0 0 0"></Label>
+
+        <TextBox Name="TextBoxBenutzer" Height="27" Width="270" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="1" HorizontalAlignment="Center" TextChanged="TextBoxBenutzer_TextChanged" KeyDown="TextBoxBenutzer_KeyDown" MouseEnter="TextBoxBenutzer_MouseEnter" MouseLeave="TextBoxBenutzer_MouseLeave">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7"></Setter>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+
+        <TextBox Name="TextBoxEmail" Height="27" Width="270" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="3" HorizontalAlignment="Center" TextChanged="TextBoxEmail_TextChanged" KeyDown="TextBoxEmail_KeyDown" MouseEnter="TextBoxEmail_MouseEnter" MouseLeave="TextBoxEmail_MouseLeave">
+            <TextBox.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="7"></Setter>
+                </Style>
+            </TextBox.Resources>
+        </TextBox>
+
+        <PasswordBox Name="TextBoxPasswort" Height="27" Width="270" VerticalContentAlignment="Center" Grid.Column="2" Grid.Row="5" HorizontalAlignment="Center" PasswordChanged="TextBoxPasswort_PasswordChanged" KeyDown="TextBoxPasswort_KeyDown" MouseEnter="TextBoxPasswort_MouseEnter" MouseLeave="TextBoxPasswort_MouseLeave"></PasswordBox>
+
+        <PasswordBox Name="TextBoxPasswortBestätigung" Height="27" VerticalContentAlignment="Center" Width="270" Grid.Column="2" Grid.Row="7" HorizontalAlignment="Center" PasswordChanged="TextBoxPasswortBestätigung_PasswordChanged" KeyDown="TextBoxPasswortBestätigung_KeyDown" MouseEnter="TextBoxPasswortBestätigung_MouseEnter" MouseLeave="TextBoxPasswortBestätigung_MouseLeave"></PasswordBox>
+
+        <Button Name="ButtonAbbrechen" Content="Abbrechen" Grid.Row="9" Grid.Column="1" Height="24" Width="270" Background="#007f9c" Foreground="White" Click="ButtonAbbrechen_Click">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"></Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+        
+        <Button Name="ButtonRegister" Content="Registrieren" Grid.Row="9" Grid.Column="2" Height="24" Width="270" Background="#007f9c" Foreground="Black" Click="ButtonRegister_Click" IsEnabled="False" IsEnabledChanged="ButtonRegister_IsEnabledChanged">
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10"></Setter>
+                </Style>
+            </Button.Resources>
+        </Button>
+
+        <Label Name="labelEmailBedingung" Content="E-Mail Bedingung :" FontSize="14" Grid.Column="1" Grid.Row="8"></Label>
+        <Label Name="labelAT" Content="● '@'" FontSize="14" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"></Label>
+        <Label Name="labelPunkt" Content="● '.'" FontSize="14" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 250 0" Grid.Column="1"></Label>
+
+        <Label Name="labelPasswortBedingung" Content="Passwort Bedingung :" Grid.Column="2" FontSize="14" Grid.Row="8" HorizontalAlignment="Center" Margin="0 0 140 0"></Label>
+        <Label Name="labelGroßbuchstaben" Content="● Großbuchstaben" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Center" Margin="55 0 0 0"></Label>
+        <Label Name="labelKleinbuchstaben" Content="● Kleinbuchstaben" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Center" Margin="180 0 0 0"></Label>
+        <Label Name="labelZahlen" Content="● Zahlen" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Center" Margin="300 0 0 0"></Label>
+        <Label Name="labelLänge" Content="● 6 - 20 Zeichen" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Bottom" Margin="55 0 0 0"></Label>
+        <Label Name="labelSonderzeichen" Content="● Sonderzeichen" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Bottom" Margin="160 0 0 0"></Label>
+
+        <Label Name="labelPasswortÜbereinstimmung" Content="Passwörter stimmen nicht überein." Foreground="Red" Grid.Column="2" FontSize="14" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0" Grid.RowSpan="3"></Label>
+
+        <Label Name="labelBenutzerExistiert" Content="Benutzer exisitert" Foreground="Red" Grid.Column="2" FontSize="14" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0" Grid.RowSpan="3"></Label>
+        <Label Name="labelEmailExistiert" Content="Email-Adresse exisitert" Foreground="Red" Grid.Column="2" FontSize="14" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0" Grid.RowSpan="3"></Label>
+
+    </Grid>
+</UserControl>

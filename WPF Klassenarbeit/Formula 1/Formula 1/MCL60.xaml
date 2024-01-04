@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="Formula_1.MCL60"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Formula_1"
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800">
+    <Grid Background="Black">
+
+        <Image Source="McLaren Bilder/MCL601.png" Name="mcl601"></Image>
+        <Image Source="McLaren Bilder/MCL602.png" Name="mcl602" Visibility="Collapsed"></Image>
+        <Image Source="McLaren Bilder/MCL603.png" Name="mcl603" Visibility="Collapsed"></Image>
+        <Image Source="McLaren Bilder/MCL604.png" Name="mcl604" Visibility="Collapsed"></Image>
+
+        <Button Background="Transparent" Content="❯" VerticalAlignment="Center" BorderBrush="Transparent" Foreground="Black" HorizontalAlignment="Right" FontSize="50" Margin="4" Name="rechtsklick1" ClickMode="Press" Click="rechtsklick1_Click"></Button>
+        
+        <Button Background="Transparent" Content="❮" VerticalAlignment="Center" Visibility="Collapsed" BorderBrush="Transparent" Foreground="Black" HorizontalAlignment="Left" FontSize="50" Margin="4" Name="linksklick1" ClickMode="Press" Click="linksklick1_Click"></Button>
+
+        <TextBlock HorizontalAlignment="Left" FontSize="20" Foreground="White" VerticalAlignment="Bottom" Name="anzahl" Text="Bild: 1 / 4" Margin="10"></TextBlock>
+        
+    </Grid>
+</UserControl>

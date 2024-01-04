@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Formula_1.England"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Formula_1"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="1400">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.Row="1" Grid.ColumnSpan="3" Background="Red" Height="70" Opacity="0.8"></Border>
+        <Border Grid.Column="1" Grid.RowSpan="3" Background="Red" Width="70" Opacity="0.8"></Border>
+
+        <TextBlock Text="Welcome to Red Bull Oracle Formula One Team" Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Center" FontSize="27" Foreground="Black" Margin="7" FontWeight="Heavy"></TextBlock>
+        <TextBlock Text="Please Enter your name: ↓" FontWeight="Heavy" Grid.Column="1" Foreground="Black" FontSize="27" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 90 0 0"></TextBlock>
+        <TextBox Name="textboxvorname" Height="30" Width="140" Grid.Column="1" FontSize="20" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160 170 0 0"></TextBox>
+        <TextBox Name="textboxnachname" Height="30" Width="170" Grid.Column="1" FontSize="20" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="340 170 0 0"></TextBox>
+
+        <TextBlock FontWeight="Heavy" Text="Only male or female possible!!!!" Grid.Row="1" Margin="10 0 0 0" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="27"></TextBlock>
+        <RadioButton Name="männlich" FontWeight="Heavy" Content="Male" Foreground="Black" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="27" Margin="40 90 0 0"></RadioButton>
+        <RadioButton Name="weiblich" FontWeight="Heavy" Content="Female" Foreground="Black" Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="27" Margin="40 170 0 0"></RadioButton>
+
+        <CheckBox Name="Nutzungsbedingunen" FontWeight="Heavy" Content="I agree with the terms and conditions." Grid.Row="2" Foreground="Black" FontSize="30" VerticalAlignment="Bottom" Margin="20 0 0 30"></CheckBox>
+
+        <TextBlock Text="Day" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" Margin="-210 -100 0 0" Foreground="Black" FontSize="27"></TextBlock>
+        <ComboBox Name="Tag" FontWeight="Heavy" FontSize="20" Margin="-210 0 0 0" Height="30" Width="60" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center"></ComboBox>
+
+        <TextBlock Text="Month" FontWeight="Heavy" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0 -100 0 0" Grid.Row="1" Grid.Column="1" Foreground="Black" FontSize="27"></TextBlock>
+        <ComboBox Name="Monat" FontWeight="Heavy" FontSize="20" Margin="18 0 0 0" Height="30" Width="120" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center">
+            <ComboBoxItem Content="January" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="February" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="March" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="April" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="May" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="June" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="July" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="August" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="September" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="October" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="November" FontSize="20"></ComboBoxItem>
+            <ComboBoxItem Content="December" FontSize="20"></ComboBoxItem>
+        </ComboBox>
+
+        <TextBlock Text="Year" HorizontalAlignment="Center" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" Margin="270 -100 0 0" Foreground="Black" FontWeight="Heavy" FontSize="27"></TextBlock>
+        <ComboBox Name="Jahr" FontWeight="Heavy" FontSize="20" Margin="283 0 0 0" Grid.Row="1" Grid.Column="1" Height="30" Width="100" VerticalAlignment="Center" HorizontalAlignment="Center"></ComboBox>
+
+        <Button Background="Transparent" Height="50" Grid.Row="2" Grid.Column="1" VerticalAlignment="Bottom" Margin="30" Content="Finish" FontSize="30" BorderBrush="Transparent" Name="fertig" Click="fertig_Click"></Button>
+
+        <Button Height="40" Grid.Column="2" Grid.Row="2" VerticalAlignment="Bottom" Margin="40" HorizontalAlignment="Right" Width="240" BorderBrush="Transparent" Background="Transparent" FontSize="20" FontWeight="Heavy" Content="Language choice" Name="sprache" Click="sprache_Click"></Button>
+        
+    </Grid>
+</UserControl>

@@ -1,0 +1,104 @@
+﻿<UserControl x:Class="Desktop.DesktopOberfläche"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Desktop"
+             mc:Ignorable="d" 
+             d:DesignHeight="950" d:DesignWidth="1200"
+             Loaded="UserControl_Loaded"
+             MinHeight="450" MinWidth="800">
+    <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Image Source="Bilder/Desktop.png" Focusable="True" MinHeight="450" MinWidth="800" Grid.ColumnSpan="4" Grid.RowSpan="4"></Image>
+
+        <Grid Grid.Row="3" Grid.ColumnSpan="4" Height="57" VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Name="DockTaskLeiste" Background="Black" VerticalAlignment="Bottom" Grid.Row="4" Grid.ColumnSpan="4" Height="67">
+                <StackPanel Orientation="Horizontal">
+                    <Button Name="ButtonStart" Width="57" Height="57" BorderBrush="Transparent" Click="ButtonStart_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Bilder/Start.png"></ImageBrush>
+                        </Button.Background>
+                    </Button>
+
+                    <TextBox Name="TextBoxSuchbegriff" Text="  🔍   Suchbegriff hier eingeben" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Background="WhiteSmoke" Foreground="#666" Height="53" Width="240" GotFocus="TextBoxSuchbegriff_GotFocus" LostFocus="TextBoxSuchbegriff_LostFocus"/>
+
+                    <Button Name="ButtonExplorer" Width="50" Height="44" Margin="70 0 0 0" BorderBrush="Transparent" ToolTip="Explorer" Click="ButtonExplorer_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Bilder/Explorer.png"></ImageBrush>
+                        </Button.Background>
+                    </Button>
+
+                    <Button Name="ButtonRechner" Width="50" Height="44" Margin="70 0 0 0" BorderBrush="Transparent" ToolTip="Taschenrechner">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Bilder/Rechner.png"></ImageBrush>
+                        </Button.Background>
+                    </Button>
+
+                    <Button Name="ButtonVisualStudio" Width="50" Height="44" Margin="70 0 0 0" BorderBrush="Transparent" ToolTip="Visual Studio 2022">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Bilder/VisualStudio.png"></ImageBrush>
+                        </Button.Background>
+                    </Button>
+
+                    <StatusBar Width="95" Height="25" Margin="1170 0 0 0" VerticalAlignment="Bottom" VerticalContentAlignment="Bottom" Background="Transparent" Foreground="White">
+                        <TextBlock x:FieldModifier="public" x:Name="Datum"/>
+                    </StatusBar>
+
+                    <Label Name="labelZeit" Height="24" Margin="-106 6 0 0" Width="80" Foreground="White" VerticalContentAlignment="Top" VerticalAlignment="Top"/>
+                    
+                </StackPanel>
+            </DockPanel>
+
+        </Grid>
+
+        <Label x:Name="benutzerLabel" Grid.Column="1" Foreground="White" Grid.Row="1" FontSize="19" Content="Angemeldeter Benutzer: "></Label>
+
+        <Button Name="ButtonSnake" Width="100" Height="110" Grid.Row="1" VerticalAlignment="Center" Margin="8 70 0 0" HorizontalAlignment="Left" Click="ButtonSnake_Click" BorderBrush="Transparent">
+            <Button.Background>
+                <ImageBrush ImageSource="/Bilder/Snake.ico"></ImageBrush>
+            </Button.Background>
+        </Button>
+        <TextBlock Text="Snake" Foreground="White" FontSize="25" Height="28" VerticalAlignment="Bottom" Margin="25 0 0 0" Grid.Row="1"/>
+
+        <Button Name="ButtonTicTacToe" Width="100" Height="110" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="14 0 0 10" Click="ButtonTicTacToe_Click" BorderBrush="Transparent">
+            <Button.Background>
+                <ImageBrush ImageSource="/Bilder/Icon.png"></ImageBrush>
+            </Button.Background>
+        </Button>
+        <TextBlock Text="Tic Tac Toe" Foreground="White" FontSize="25" Margin="7 0 0 0" Height="28" Grid.Row="1" VerticalAlignment="Top"/>
+
+        <Button Name="ButtonTetris" Width="100" Grid.Row="2" Height="110" Margin="6 0 0 0" VerticalAlignment="Center" HorizontalAlignment="Left" Click="ButtonTetris_Click" BorderBrush="Transparent">
+            <Button.Background>
+                <ImageBrush ImageSource="/Bilder/Icon.ico"></ImageBrush>
+            </Button.Background>
+        </Button>
+        <TextBlock Text="Tetris" Foreground="White" FontSize="25" Height="28" VerticalAlignment="Bottom" Margin="27 0 0 40" Grid.Row="2"/>
+
+    </Grid>
+</UserControl>
