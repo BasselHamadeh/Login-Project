@@ -13,7 +13,7 @@ namespace Login_Project
     {
         public static MainWindow wnd;
 
-        public static string csvDatei = "C:\\Login-Project/benutzerdaten.csv";
+        public static string csvDatei = "C:\\Users/Fujitsu/Desktop/xml-validator/public/ressources/benutzerdaten.csv";
 
         public static void TryLogin(Login login, MainWindow main)
         {
@@ -41,7 +41,7 @@ namespace Login_Project
             {
                 try
                 {
-                    string WPF = "C:\\Login-Project/Desktop/Desktop/bin/Debug/Desktop.exe";
+                    string WPF = "C:\\Desktop/Desktop/bin/Debug/Desktop.exe";
 
                     Process.Start(new ProcessStartInfo(WPF));
                 }
@@ -65,7 +65,7 @@ namespace Login_Project
 
         public static void ReadCSV()
         {
-            string csvDatei = "C:\\Login-Project/benutzerdaten.csv";
+            string csvDatei = "C:\\Users/Fujitsu/Desktop/xml-validator/public/ressources/benutzerdaten.csv";
             string[] line = File.ReadAllLines(csvDatei);
 
             try

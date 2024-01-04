@@ -73,20 +73,20 @@
         </Button>
 
         <Label Name="labelEmailBedingung" Content="E-Mail Bedingung :" FontSize="14" Grid.Column="1" Grid.Row="8"></Label>
-        <Label Name="labelAT" Content="● '@'" FontSize="14" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"></Label>
-        <Label Name="labelPunkt" Content="● '.'" FontSize="14" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 250 0" Grid.Column="1"></Label>
+        <Label Name="labelAT" Content="● '@'" FontSize="14" FontWeight="Bold" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"></Label>
+        <Label Name="labelPunkt" Content="● '.'" FontSize="14" FontWeight="Bold" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 250 0" Grid.Column="1"></Label>
 
-        <Label Name="labelPasswortBedingung" Content="Passwort Bedingung :" Grid.Column="2" FontSize="14" Grid.Row="8" HorizontalAlignment="Center" Margin="0 0 140 0"></Label>
-        <Label Name="labelGroßbuchstaben" Content="● Großbuchstaben" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Center" Margin="55 0 0 0"></Label>
-        <Label Name="labelKleinbuchstaben" Content="● Kleinbuchstaben" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Center" Margin="180 0 0 0"></Label>
-        <Label Name="labelZahlen" Content="● Zahlen" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Center" Margin="300 0 0 0"></Label>
-        <Label Name="labelLänge" Content="● 6 - 20 Zeichen" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Bottom" Margin="55 0 0 0"></Label>
-        <Label Name="labelSonderzeichen" Content="● Sonderzeichen" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Bottom" Margin="160 0 0 0"></Label>
+        <Label Name="labelPasswortBedingung" Content="Passwort Bedingung :" Grid.Column="2" FontSize="14" Grid.Row="8" HorizontalAlignment="Center" Margin="0 0 120 0" FontWeight="Bold"></Label>
+        <Label Name="labelGroßbuchstaben" Content="● Großbuchstaben" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Center" Margin="55 0 0 0" FontWeight="Bold"></Label>
+        <Label Name="labelKleinbuchstaben" Content="● Kleinbuchstaben" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Center" Margin="180 0 0 0" FontWeight="Bold"></Label>
+        <Label Name="labelZahlen" Content="● Zahlen" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Center" Margin="306 0 0 0" FontWeight="Bold"></Label>
+        <Label Name="labelLänge" Content="● 6 - 20 Zeichen" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Bottom" Margin="55 0 0 0" FontWeight="Bold"></Label>
+        <Label Name="labelSonderzeichen" Content="● Sonderzeichen" Grid.Column="2" FontSize="14" Grid.Row="8" VerticalAlignment="Bottom" Margin="164 0 0 0" FontWeight="Bold"></Label>
 
-        <Label Name="labelPasswortÜbereinstimmung" Content="Passwörter stimmen nicht überein." Foreground="Red" Grid.Column="2" FontSize="14" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0" Grid.RowSpan="3"></Label>
+        <Label Name="labelPasswortÜbereinstimmung" Content="Passwörter stimmen nicht überein." FontWeight="Bold" Foreground="Red" Grid.Column="2" FontSize="14" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0" Grid.RowSpan="3"></Label>
 
-        <Label Name="labelBenutzerExistiert" Content="Benutzer exisitert" Foreground="Red" Grid.Column="2" FontSize="14" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0" Grid.RowSpan="3"></Label>
-        <Label Name="labelEmailExistiert" Content="Email-Adresse exisitert" Foreground="Red" Grid.Column="2" FontSize="14" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0" Grid.RowSpan="3"></Label>
+        <Label Name="labelBenutzerExistiert" Content="Benutzer exisitert" Foreground="Red" FontWeight="Bold" Grid.Column="2" FontSize="14" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0" Grid.RowSpan="3"></Label>
+        <Label Name="labelEmailExistiert" Content="Email-Adresse exisitert" Foreground="Red" FontWeight="Bold" Grid.Column="2" FontSize="14" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 10 0" Grid.RowSpan="3"></Label>
 
     </Grid>
 </UserControl>

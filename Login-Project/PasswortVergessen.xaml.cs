@@ -31,19 +31,19 @@ namespace Login_Project
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
         {
-            TextBoxBenutzerEingabe.Focus();
+            TextBoxEmailEingabe.Focus();
         }
 
         private void ButtonBenutzerEmailSuchen_Click(object sender, RoutedEventArgs e)
         {
-            string UserInput = TextBoxBenutzerEingabe.Text;
+            string UserInput = TextBoxEmailEingabe.Text;
 
             string password = BackendPasswort.ReadDataCSV(UserInput);
 
             if (!string.IsNullOrEmpty(password))
             {
                 labelNameEmail.Visibility = Visibility.Collapsed;
-                TextBoxBenutzerEingabe.Visibility = Visibility.Collapsed;
+                TextBoxEmailEingabe.Visibility = Visibility.Collapsed;
                 ButtonBenutzerEmailSuchen.Visibility = Visibility.Collapsed;
                 ButtonHauptmenü.Visibility = Visibility.Collapsed;
 
@@ -64,8 +64,8 @@ namespace Login_Project
             else
             {
                 MessageBox.Show("Ungültige E-Mail-Adresse.");
-                TextBoxBenutzerEingabe.Clear();
-                TextBoxBenutzerEingabe.Focus();
+                TextBoxEmailEingabe.Clear();
+                TextBoxEmailEingabe.Focus();
             }
         }
 
@@ -135,12 +135,12 @@ namespace Login_Project
 
         private void TextBoxBenutzerEingabe_MouseEnter(object sender, MouseEventArgs e)
         {
-            TextBoxBenutzerEingabe.Background = Brushes.LightGray;
+            TextBoxEmailEingabe.Background = Brushes.LightGray;
         }
 
         private void TextBoxBenutzerEingabe_MouseLeave(object sender, MouseEventArgs e)
         {
-            TextBoxBenutzerEingabe.Background = Brushes.White;
+            TextBoxEmailEingabe.Background = Brushes.White;
         }
 
         private void TextBoxPasswort_MouseEnter(object sender, MouseEventArgs e)

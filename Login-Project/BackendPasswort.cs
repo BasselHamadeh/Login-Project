@@ -20,7 +20,7 @@ namespace Login_Project
         {
             wnd = main;
 
-            string Username = passwordReset.TextBoxBenutzerEingabe.Text;
+            string Email = passwordReset.TextBoxEmailEingabe.Text;
             string newPassword = passwordReset.TextBoxPasswort.Password;
             string newPasswordAgain = passwordReset.TextBoxPasswortBestätigung.Password;
 
@@ -46,24 +46,24 @@ namespace Login_Project
             }
             else
             {
-                bool isUsernameFound = false;
+                bool isEmailFound = false;
 
                 foreach (User u in BackendRegister.registerUser)
                 {
-                    if (u.Username == Username)
+                    if (u.Email == Email)
                     {
                         u.Password = BackendRegister.EncryptPassword(newPassword);
-                        isUsernameFound = true;
+                        isEmailFound = true;
                         BackendRegister.CSVWrite();
                         break;
                     }
                 }
 
-                if (isUsernameFound)
+                if (isEmailFound)
                 {
                     MessageBox.Show("Passwort erfolgreich zurückgesetzt.");
                     wnd.content.Content = new Login(wnd);
-                    wnd.login.TextBoxBenutzerEmail.Text = passwordReset.TextBoxBenutzerEingabe.Text;
+                    wnd.login.TextBoxBenutzerEmail.Text = passwordReset.TextBoxEmailEingabe.Text;
                     BackendRegister.CSVWrite();
                 }
             }
@@ -71,35 +71,30 @@ namespace Login_Project
 
         public static bool UserCondition(ForgottenPassword passwd)
         {
-            string Benutzer = passwd.TextBoxBenutzerEingabe.Text;
+            string Email = passwd.TextBoxEmailEingabe.Text;
 
-            if (string.IsNullOrEmpty(Benutzer))
+            if (string.IsNullOrEmpty(Email) || !IsExistingEmail(Email))
             {
-                passwd.labelBenutzerExistiertNicht.Visibility = Visibility.Collapsed;
+                passwd.labelBenutzerExistiertNicht.Visibility = Visibility.Visible;
                 return false;
-            }
-
-            bool benutzerGefunden = false;
-
-            foreach (User user in BackendRegister.registerUser)
-            {
-                if (user.Username == Benutzer)
-                {
-                    benutzerGefunden = true;
-                    break;
-                }
-            }
-
-            if (benutzerGefunden)
-            {
-                passwd.labelBenutzerExistiertNicht.Visibility = Visibility.Collapsed;
             }
             else
             {
-                passwd.labelBenutzerExistiertNicht.Visibility = Visibility.Visible;
+                passwd.labelBenutzerExistiertNicht.Visibility = Visibility.Collapsed;
+                return true;
             }
+        }
 
-            return benutzerGefunden;
+        public static bool IsExistingEmail(string email)
+        {
+            foreach (User u in BackendRegister.registerUser)
+            {
+                if (u.Email == email)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public static void ButtonSearchEnabled(ForgottenPassword passwd)
@@ -197,7 +192,7 @@ namespace Login_Project
             string encryptedPassword = null;
             string decryptedPassword = null;
 
-            string csvFilePath = "C:\\Login-Project\\benutzerdaten.csv";
+            string csvFilePath = "C:\\Users/Fujitsu/Desktop/xml-validator/public/ressources/benutzerdaten.csv";
 
             try
             {
