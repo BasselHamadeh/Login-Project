@@ -55,6 +55,7 @@ namespace Login_Project
                         u.Password = BackendRegister.EncryptPassword(newPassword);
                         isEmailFound = true;
                         BackendRegister.CSVWrite();
+                        BackendRegister.PostgreSQLWrite();
                         break;
                     }
                 }
@@ -65,6 +66,7 @@ namespace Login_Project
                     wnd.content.Content = new Login(wnd);
                     wnd.login.TextBoxBenutzerEmail.Text = passwordReset.TextBoxEmailEingabe.Text;
                     BackendRegister.CSVWrite();
+                    BackendRegister.PostgreSQLWrite();
                 }
             }
         }
@@ -192,7 +194,7 @@ namespace Login_Project
             string encryptedPassword = null;
             string decryptedPassword = null;
 
-            string csvFilePath = "C:\\Users/Fujitsu/Desktop/xml-validator/public/ressources/benutzerdaten.csv";
+            string csvFilePath = "C:\\Users/Fujitsu/Desktop/XML-Validator-Frontend/public/ressources/benutzerdaten.csv";
 
             try
             {

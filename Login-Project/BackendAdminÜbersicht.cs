@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Npgsql;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -62,22 +63,14 @@ namespace Login_Project
                         admin.ButtonAdminErnennung.IsHitTestVisible = true;
                     }
                 }
-            }            
+            }
         }
 
         public static void DeleteAccount(AdminOverview admin)
         {
             string Benutzer = admin.TextBoxBenutzerEingabeSuche.Text;
 
-            List<User> benutzerToRemove = new List<User>();
-
-            foreach (User u in BackendRegister.registerUser)
-            {
-                if (u.Username == admin.TextBoxBenutzerEingabeSuche.Text)
-                {
-                    benutzerToRemove.Add(u);
-                }
-            }
+            List<User> benutzerToRemove = BackendRegister.registerUser.Where(u => u.Username == Benutzer).ToList();
 
             foreach (User u in benutzerToRemove)
             {
@@ -90,6 +83,7 @@ namespace Login_Project
             admin.TextBoxNeuerBenutzername.IsEnabled = false;
 
             BackendRegister.CSVWrite();
+            PostgreSQLDelete(Benutzer);
 
             MessageBox.Show($"Konto \"{Benutzer}\" wurde erfolgreich gelöscht.");
         }
@@ -115,25 +109,27 @@ namespace Login_Project
                 return;
             }
 
-            foreach (User u in BackendRegister.registerUser)
+            if (BackendRegister.registerUser.Any(u => u.Username == NeuerBenutzerName))
             {
-                if (u.Username == NeuerBenutzerName)
-                {
-                    MessageBox.Show("Der neue Benutzername ist bereits vergeben. Bitte wählen Sie einen anderen Benutzernamen.", "Fehler");
-                    admin.TextBoxNeuerBenutzername.Text = "";
-                    admin.TextBoxNeuerBenutzername.Focus();
-                    return;
-                }
+                MessageBox.Show("Der neue Benutzername ist bereits vergeben. Bitte wählen Sie einen anderen Benutzernamen.", "Fehler");
+                admin.TextBoxNeuerBenutzername.Text = "";
+                admin.TextBoxNeuerBenutzername.Focus();
+                return;
             }
 
-            foreach (User u in BackendRegister.registerUser)
+            User userToModify = BackendRegister.registerUser.FirstOrDefault(u => u.Username == EingabeBenutzer);
+            if (userToModify != null)
             {
-                if (u.Username == EingabeBenutzer)
-                {
-                    u.Username = NeuerBenutzerName;
-                    BackendRegister.CSVWrite();
-                    MessageBox.Show($"Benutzername wurde erfolgreich von  \"{EingabeBenutzer}\"  zu  \"{NeuerBenutzerName}\"  geändert.", "Erfolg");
-                }
+                userToModify.Username = NeuerBenutzerName;
+                BackendRegister.CSVWrite();
+                BackendRegister.PostgreSQLWrite();
+                MessageBox.Show($"Benutzername wurde erfolgreich von  \"{EingabeBenutzer}\"  zu  \"{NeuerBenutzerName}\"  geändert.", "Erfolg");
+
+                admin.TextBoxBenutzerEingabeSuche.Text = NeuerBenutzerName;
+            }
+            else
+            {
+                MessageBox.Show($"Benutzer \"{EingabeBenutzer}\" nicht gefunden.", "Fehler");
             }
         }
 
@@ -141,21 +137,27 @@ namespace Login_Project
         {
             string Benutzer = admin.TextBoxBenutzerEingabeSuche.Text;
 
-            foreach (User u in BackendRegister.registerUser)
+            // Find the user to add admin rights
+            User userToAddAdmin = BackendRegister.registerUser.FirstOrDefault(u => u.Username == Benutzer);
+
+            if (userToAddAdmin != null)
             {
-                if (u.Username == Benutzer)
-                {
-                    u.Status = "Administrator";
-                    u.Sicherheitsgruppe = "Administratoren";
-                }
+                userToAddAdmin.Status = "Administrator";
+                userToAddAdmin.Sicherheitsgruppe = "Administratoren";
+
+                BackendRegister.CSVWrite();
+                BackendRegister.PostgreSQLWrite();
+
+                // Update UI
+                admin.ButtonAdminErnennung.IsHitTestVisible = false;
+                admin.ButtonKontoLöschen.IsHitTestVisible = false;
+
+                MessageBox.Show($"{Benutzer} wurde zu Administrator ernannt.");
             }
-
-            admin.ButtonAdminErnennung.IsHitTestVisible = false;
-            admin.ButtonKontoLöschen.IsHitTestVisible = false;
-
-            BackendRegister.CSVWrite();
-
-            MessageBox.Show($"{Benutzer} wurde zu Administrator ernannt.");
+            else
+            {
+                MessageBox.Show($"Benutzer \"{Benutzer}\" nicht gefunden.", "Fehler");
+            }
         }
 
         public static void RemoveAdmin(AdminOverview admin)
@@ -177,14 +179,15 @@ namespace Login_Project
                 }
             }
 
-            admin.ButtonAdminEntfernung.IsHitTestVisible = false; 
+            admin.ButtonAdminEntfernung.IsHitTestVisible = false;
             admin.ButtonKontoLöschen.IsHitTestVisible = true;
             admin.ButtonAdminErnennung.IsHitTestVisible = true;
             admin.TextBoxPasswortAdmin.IsEnabled = false;
 
             BackendRegister.CSVWrite();
+            BackendRegister.PostgreSQLWrite();
 
-            MessageBox.Show($"{Benutzer} wurde zu von den Administratoren entfernt.");
+            MessageBox.Show($"{Benutzer} wurde von den Administratoren entfernt.");
         }
 
         public static bool UserCondition(AdminOverview admin)
@@ -197,25 +200,9 @@ namespace Login_Project
                 return false;
             }
 
-            bool benutzerGefunden = false;
+            bool benutzerGefunden = BackendRegister.registerUser.Any(user => user.Username == Benutzer);
 
-            foreach (User user in BackendRegister.registerUser)
-            {
-                if (user.Username == Benutzer)
-                {
-                    benutzerGefunden = true;
-                    break;
-                }
-            }
-
-            if (benutzerGefunden)
-            {
-                admin.labelBenutzerExistiertNicht.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                admin.labelBenutzerExistiertNicht.Visibility = Visibility.Visible;
-            }
+            admin.labelBenutzerExistiertNicht.Visibility = benutzerGefunden ? Visibility.Collapsed : Visibility.Visible;
 
             return benutzerGefunden;
         }
@@ -224,16 +211,42 @@ namespace Login_Project
         {
             string neuesPasswortAdmin = admin.TextBoxPasswortAdmin.Password;
 
-            foreach (User u in BackendRegister.registerUser)
+            foreach (User u in BackendRegister.registerUser.Where(user => user.Status == "Administrator"))
             {
-                if (u.Status == "Administrator")
-                {
-                    u.Password = BackendRegister.EncryptPassword(neuesPasswortAdmin);
-                    BackendRegister.CSVWrite();
-                }
+                u.Password = BackendRegister.EncryptPassword(neuesPasswortAdmin);
             }
+
+            BackendRegister.CSVWrite();
+            BackendRegister.PostgreSQLWrite();
 
             MessageBox.Show("Admin Passwort wurde geändert.");
         }
+
+        public static void PostgreSQLDelete(string username)
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "DELETE FROM user_table WHERE username = @Username";
+                        cmd.Parameters.AddWithValue("@Username", username);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+        }
+
     }
 }

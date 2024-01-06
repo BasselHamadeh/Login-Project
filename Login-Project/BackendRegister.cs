@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using Npgsql;
 
 namespace Login_Project
 {
@@ -100,6 +101,7 @@ namespace Login_Project
                 MessageBox.Show("Registrierung erfolgreich.");
                 registerUser.Add(newUser);
                 CSVWrite();
+                PostgreSQLWrite();
 
                 wnd.content.Content = new Login(wnd);
                 wnd.login.TextBoxBenutzerEmail.Text = register.TextBoxBenutzer.Text;
@@ -131,7 +133,7 @@ namespace Login_Project
 
         public static void CSVWrite()
         {
-            string dateiPfad = "C:\\Users/Fujitsu/Desktop/xml-validator/public/ressources/benutzerdaten.csv";
+            string dateiPfad = "C:\\Users/Fujitsu/Desktop/XML-Validator-Frontend/public/ressources/benutzerdaten.csv";
 
             using (StreamWriter sw = new StreamWriter(dateiPfad, false))
             {
@@ -263,7 +265,7 @@ namespace Login_Project
                     if (register.labelEmailExistiert != null)
                     {
                         register.labelEmailExistiert.Visibility = Visibility.Visible;
-                    }                    
+                    }
                     return false;
                 }
             }
@@ -327,14 +329,73 @@ namespace Login_Project
 
             register.ButtonRegister.IsEnabled = areTextboxesFilled && isBenutzerUnique && isEmailUnique && doPasswordsMatch;
         }
-    }
 
-    public class User
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public string Status { get; set; }
-        public string Sicherheitsgruppe { get; set; }
+        public static void PostgreSQLWrite()
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    if (registerUser != null)
+                    {
+                        foreach (User u in registerUser)
+                        {
+                            if (!UserExistsInDatabase(u.Username, conn))
+                            {
+                                InsertUserIntoDatabase(u, conn);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+        }
+
+        private static bool UserExistsInDatabase(string username, NpgsqlConnection conn)
+        {
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "SELECT COUNT(*) FROM user_table WHERE username = @Username";
+                cmd.Parameters.AddWithValue("@Username", username);
+
+                int count = Convert.ToInt32(cmd.ExecuteScalar());
+                return count > 0;
+            }
+        }
+
+        private static void InsertUserIntoDatabase(User user, NpgsqlConnection conn)
+        {
+            using (NpgsqlCommand cmd = new NpgsqlCommand())
+            {
+                cmd.Connection = conn;
+                cmd.CommandText = "INSERT INTO user_table (username, email, status, sicherheitsgruppe, password) " +
+                                  "VALUES (@Username, @Email, @Status, @Sicherheitsgruppe, @Password)";
+
+                cmd.Parameters.AddWithValue("@Username", user.Username);
+                cmd.Parameters.AddWithValue("@Email", user.Email);
+                cmd.Parameters.AddWithValue("@Status", user.Status);
+                cmd.Parameters.AddWithValue("@Sicherheitsgruppe", user.Sicherheitsgruppe);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
+}
+
+public class User
+{
+    public string Username { get; set; }
+    public string Password { get; set; }
+    public string Email { get; set; }
+    public string Status { get; set; }
+    public string Sicherheitsgruppe { get; set; }
 }

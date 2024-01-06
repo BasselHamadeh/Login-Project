@@ -13,7 +13,7 @@ namespace Login_Project
     {
         public static MainWindow wnd;
 
-        public static string csvDatei = "C:\\Users/Fujitsu/Desktop/xml-validator/public/ressources/benutzerdaten.csv";
+        public static string csvDatei = "C:\\Users/Fujitsu/Desktop/XML-Validator-Frontend/public/ressources/benutzerdaten.csv";
 
         public static void TryLogin(Login login, MainWindow main)
         {
@@ -65,7 +65,7 @@ namespace Login_Project
 
         public static void ReadCSV()
         {
-            string csvDatei = "C:\\Users/Fujitsu/Desktop/xml-validator/public/ressources/benutzerdaten.csv";
+            string csvDatei = "C:\\Users/Fujitsu/Desktop/XML-Validator-Frontend/public/ressources/benutzerdaten.csv";
             string[] line = File.ReadAllLines(csvDatei);
 
             try
