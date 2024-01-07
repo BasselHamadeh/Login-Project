@@ -135,36 +135,55 @@ namespace Login_Project
 
         public static void AddAdmin(AdminOverview admin)
         {
-            string benutzername = admin.TextBoxBenutzerEingabeSuche.Text;
-
-            if (!string.IsNullOrEmpty(benutzername))
+            try
             {
-                AddAdminToDatabase(benutzername);
-                BackendRegister.CSVWrite();
+                string benutzername = admin.TextBoxBenutzerEingabeSuche.Text;
 
-                MessageBox.Show($"{benutzername} wurde zu Administrator ernannt.");
+                if (!string.IsNullOrEmpty(benutzername))
+                {
+                    AddAdminToDatabase(benutzername);
+
+                    MessageBox.Show($"{benutzername} wurde zu Administrator ernannt.");
+                    BackendRegister.CSVWrite();
+                }
+                else
+                {
+                    MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.", "Fehler");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.", "Fehler");
+                MessageBox.Show($"Fehler beim Hinzufügen des Admins: {ex.Message}", "Fehler");
             }
+
+            BackendRegister.CSVWrite();
         }
 
         public static void RemoveAdmin(AdminOverview admin)
         {
-            string benutzername = admin.TextBoxBenutzerEingabeSuche.Text;
-
-            if (!string.IsNullOrEmpty(benutzername))
+            try
             {
-                RemoveAdminFromDatabase(benutzername);
-                BackendRegister.CSVWrite();
+                string benutzername = admin.TextBoxBenutzerEingabeSuche.Text;
 
-                MessageBox.Show($"{benutzername} wurde von den Administratoren entfernt.");
+                if (!string.IsNullOrEmpty(benutzername))
+                {
+                    Console.WriteLine($"RemoveAdmin: {benutzername}");
+                    RemoveAdminFromDatabase(benutzername);
+
+                    MessageBox.Show($"{benutzername} wurde von den Administratoren entfernt.");
+                    BackendRegister.CSVWrite();
+                }
+                else
+                {
+                    MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.", "Fehler");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.", "Fehler");
+                MessageBox.Show($"Fehler beim Entfernen des Admins: {ex.Message}", "Fehler");
             }
+
+            BackendRegister.CSVWrite();
         }
 
         public static bool UserCondition(AdminOverview admin)
@@ -241,7 +260,23 @@ namespace Login_Project
                         cmd.CommandText = "UPDATE user_table SET status = 'Administrator', sicherheitsgruppe = 'Administratoren' WHERE username = @Username";
                         cmd.Parameters.AddWithValue("@Username", username);
 
-                        cmd.ExecuteNonQuery();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine($"Benutzer {username} wurde erfolgreich zu Administrator ernannt.");
+
+                            User adminUser = BackendRegister.registerUser.FirstOrDefault(u => u.Username == username);
+                            if (adminUser != null)
+                            {
+                                adminUser.Status = "Administrator";
+                                adminUser.Sicherheitsgruppe = "Administratoren";
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Benutzer {username} konnte nicht zu Administrator ernannt werden. Kein Datensatz gefunden.");
+                        }
                     }
                 }
             }
@@ -267,7 +302,23 @@ namespace Login_Project
                         cmd.CommandText = "UPDATE user_table SET status = 'Benutzer', sicherheitsgruppe = 'Mitarbeiter' WHERE username = @Username";
                         cmd.Parameters.AddWithValue("@Username", username);
 
-                        cmd.ExecuteNonQuery();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine($"Benutzer {username} wurde erfolgreich von den Administratoren entfernt.");
+
+                            User adminUser = BackendRegister.registerUser.FirstOrDefault(u => u.Username == username);
+                            if (adminUser != null)
+                            {
+                                adminUser.Status = "Benutzer";
+                                adminUser.Sicherheitsgruppe = "Mitarbeiter";
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Benutzer {username} konnte nicht von den Administratoren entfernt werden. Kein Datensatz gefunden.");
+                        }
                     }
                 }
             }

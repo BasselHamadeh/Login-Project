@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
@@ -54,6 +55,9 @@ namespace Login_Project
                     {
                         u.Password = BackendRegister.EncryptPassword(newPassword);
                         isEmailFound = true;
+
+                        UpdatePasswordInDatabase(Email, newPassword);
+
                         BackendRegister.CSVWrite();
                         BackendRegister.PostgreSQLWrite();
                         break;
@@ -67,6 +71,10 @@ namespace Login_Project
                     wnd.login.TextBoxBenutzerEmail.Text = passwordReset.TextBoxEmailEingabe.Text;
                     BackendRegister.CSVWrite();
                     BackendRegister.PostgreSQLWrite();
+                }
+                else
+                {
+                    MessageBox.Show("E-Mail-Adresse nicht gefunden.", "Fehler", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
             }
         }
@@ -237,6 +245,33 @@ namespace Login_Project
         public static string DecryptPassword(string encryptedPassword)
         {
             return encryptedPassword;
+        }
+
+        public static void UpdatePasswordInDatabase(string email, string newPassword)
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "UPDATE user_table SET password = @NewPassword WHERE email = @Email";
+                        cmd.Parameters.AddWithValue("@NewPassword", BackendRegister.EncryptPassword(newPassword));
+                        cmd.Parameters.AddWithValue("@Email", email);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
         }
     }
 }
