@@ -90,10 +90,10 @@ namespace Login_Project
 
         public static void NewUsername(AdminOverview admin)
         {
-            string EingabeBenutzer = admin.TextBoxBenutzerEingabeSuche.Text;
-            string NeuerBenutzerName = admin.TextBoxNeuerBenutzername.Text;
+            string currentUsername = admin.TextBoxBenutzerEingabeSuche.Text;
+            string newUsername = admin.TextBoxNeuerBenutzername.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(NeuerBenutzerName))
+            if (string.IsNullOrWhiteSpace(newUsername))
             {
                 MessageBox.Show("Bitte geben Sie einen neuen Benutzernamen ein.", "Fehler");
                 admin.TextBoxNeuerBenutzername.Text = "";
@@ -101,7 +101,7 @@ namespace Login_Project
                 return;
             }
 
-            if (NeuerBenutzerName == EingabeBenutzer)
+            if (newUsername == currentUsername)
             {
                 MessageBox.Show("Der neue Benutzername ist identisch mit dem aktuellen Benutzernamen.", "Fehler");
                 admin.TextBoxNeuerBenutzername.Text = "";
@@ -109,7 +109,7 @@ namespace Login_Project
                 return;
             }
 
-            if (BackendRegister.registerUser.Any(u => u.Username == NeuerBenutzerName))
+            if (BackendRegister.registerUser.Any(u => u.Username == newUsername))
             {
                 MessageBox.Show("Der neue Benutzername ist bereits vergeben. Bitte wählen Sie einen anderen Benutzernamen.", "Fehler");
                 admin.TextBoxNeuerBenutzername.Text = "";
@@ -117,77 +117,54 @@ namespace Login_Project
                 return;
             }
 
-            User userToModify = BackendRegister.registerUser.FirstOrDefault(u => u.Username == EingabeBenutzer);
+            User userToModify = BackendRegister.registerUser.FirstOrDefault(u => u.Username == currentUsername);
             if (userToModify != null)
             {
-                userToModify.Username = NeuerBenutzerName;
+                userToModify.Username = newUsername;
+                UpdateUsernameInDatabase(currentUsername, newUsername);
                 BackendRegister.CSVWrite();
-                BackendRegister.PostgreSQLWrite();
-                MessageBox.Show($"Benutzername wurde erfolgreich von  \"{EingabeBenutzer}\"  zu  \"{NeuerBenutzerName}\"  geändert.", "Erfolg");
+                MessageBox.Show($"Benutzername wurde erfolgreich von  \"{currentUsername}\"  zu  \"{newUsername}\"  geändert.", "Erfolg");
 
-                admin.TextBoxBenutzerEingabeSuche.Text = NeuerBenutzerName;
+                admin.TextBoxBenutzerEingabeSuche.Text = newUsername;
             }
             else
             {
-                MessageBox.Show($"Benutzer \"{EingabeBenutzer}\" nicht gefunden.", "Fehler");
+                MessageBox.Show($"Benutzer \"{currentUsername}\" nicht gefunden.", "Fehler");
             }
         }
 
         public static void AddAdmin(AdminOverview admin)
         {
-            string Benutzer = admin.TextBoxBenutzerEingabeSuche.Text;
+            string benutzername = admin.TextBoxBenutzerEingabeSuche.Text;
 
-            // Find the user to add admin rights
-            User userToAddAdmin = BackendRegister.registerUser.FirstOrDefault(u => u.Username == Benutzer);
-
-            if (userToAddAdmin != null)
+            if (!string.IsNullOrEmpty(benutzername))
             {
-                userToAddAdmin.Status = "Administrator";
-                userToAddAdmin.Sicherheitsgruppe = "Administratoren";
-
+                AddAdminToDatabase(benutzername);
                 BackendRegister.CSVWrite();
-                BackendRegister.PostgreSQLWrite();
 
-                // Update UI
-                admin.ButtonAdminErnennung.IsHitTestVisible = false;
-                admin.ButtonKontoLöschen.IsHitTestVisible = false;
-
-                MessageBox.Show($"{Benutzer} wurde zu Administrator ernannt.");
+                MessageBox.Show($"{benutzername} wurde zu Administrator ernannt.");
             }
             else
             {
-                MessageBox.Show($"Benutzer \"{Benutzer}\" nicht gefunden.", "Fehler");
+                MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.", "Fehler");
             }
         }
 
         public static void RemoveAdmin(AdminOverview admin)
         {
-            string Benutzer = admin.TextBoxBenutzerEingabeSuche.Text;
+            string benutzername = admin.TextBoxBenutzerEingabeSuche.Text;
 
-            foreach (User u in BackendRegister.registerUser)
+            if (!string.IsNullOrEmpty(benutzername))
             {
-                if (u.Username == Benutzer)
-                {
-                    u.Status = "Benutzer";
-                    u.Sicherheitsgruppe = "Mitarbeiter";
-                }
-                else if (Benutzer.ToLower() == "admin" || Benutzer.ToLower() == "administrator")
-                {
-                    admin.ButtonAdminEntfernung.IsHitTestVisible = true;
-                    admin.ButtonKontoLöschen.IsHitTestVisible = false;
-                    admin.ButtonAdminErnennung.IsHitTestVisible = false;
-                }
+                RemoveAdminFromDatabase(benutzername);
+                BackendRegister.CSVWrite();
+
+                MessageBox.Show($"{benutzername} wurde von den Administratoren entfernt.");
             }
-
-            admin.ButtonAdminEntfernung.IsHitTestVisible = false;
-            admin.ButtonKontoLöschen.IsHitTestVisible = true;
-            admin.ButtonAdminErnennung.IsHitTestVisible = true;
-            admin.TextBoxPasswortAdmin.IsEnabled = false;
-
-            BackendRegister.CSVWrite();
-            BackendRegister.PostgreSQLWrite();
-
-            MessageBox.Show($"{Benutzer} wurde von den Administratoren entfernt.");
+            else
+            {
+                MessageBox.Show("Bitte geben Sie einen Benutzernamen ein.", "Fehler");
+            }
         }
 
         public static bool UserCondition(AdminOverview admin)
@@ -209,15 +186,15 @@ namespace Login_Project
 
         public static void PasswordAdmin(AdminOverview admin)
         {
-            string neuesPasswortAdmin = admin.TextBoxPasswortAdmin.Password;
+            string newAdminPassword = admin.TextBoxPasswortAdmin.Password;
 
-            foreach (User u in BackendRegister.registerUser.Where(user => user.Status == "Administrator"))
+            foreach (User adminUser in BackendRegister.registerUser.Where(user => user.Status == "Administrator"))
             {
-                u.Password = BackendRegister.EncryptPassword(neuesPasswortAdmin);
+                adminUser.Password = BackendRegister.EncryptPassword(newAdminPassword);
             }
 
+            UpdateAdminPasswordInDatabase(newAdminPassword);
             BackendRegister.CSVWrite();
-            BackendRegister.PostgreSQLWrite();
 
             MessageBox.Show("Admin Passwort wurde geändert.");
         }
@@ -237,6 +214,111 @@ namespace Login_Project
                         cmd.Connection = conn;
                         cmd.CommandText = "DELETE FROM user_table WHERE username = @Username";
                         cmd.Parameters.AddWithValue("@Username", username);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+        }
+
+        private static void AddAdminToDatabase(string username)
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "UPDATE user_table SET status = 'Administrator', sicherheitsgruppe = 'Administratoren' WHERE username = @Username";
+                        cmd.Parameters.AddWithValue("@Username", username);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+        }
+
+        private static void RemoveAdminFromDatabase(string username)
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "UPDATE user_table SET status = 'Benutzer', sicherheitsgruppe = 'Mitarbeiter' WHERE username = @Username";
+                        cmd.Parameters.AddWithValue("@Username", username);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+        }
+
+        private static void UpdateUsernameInDatabase(string currentUsername, string newUsername)
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "UPDATE user_table SET username = @NewUsername WHERE username = @CurrentUsername";
+                        cmd.Parameters.AddWithValue("@NewUsername", newUsername);
+                        cmd.Parameters.AddWithValue("@CurrentUsername", currentUsername);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+        }
+
+        private static void UpdateAdminPasswordInDatabase(string newAdminPassword)
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "UPDATE user_table SET password = @NewAdminPassword WHERE status = 'Administrator'";
+                        cmd.Parameters.AddWithValue("@NewAdminPassword", BackendRegister.EncryptPassword(newAdminPassword));
 
                         cmd.ExecuteNonQuery();
                     }

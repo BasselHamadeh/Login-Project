@@ -137,12 +137,7 @@ namespace Login_Project
 
             using (StreamWriter sw = new StreamWriter(dateiPfad, false))
             {
-                sw.Write("");
-            }
-
-            foreach (User u in registerUser)
-            {
-                using (StreamWriter sw = new StreamWriter(dateiPfad, true))
+                foreach (User u in registerUser)
                 {
                     sw.WriteLine(u.Username + "," + u.Email + "," + u.Status + "," + u.Sicherheitsgruppe + "," + u.Password);
                 }
@@ -351,6 +346,8 @@ namespace Login_Project
                         }
                     }
                 }
+
+                CSVWrite();
             }
             catch (Exception ex)
             {
@@ -387,6 +384,8 @@ namespace Login_Project
 
                 cmd.ExecuteNonQuery();
             }
+
+            CSVWrite();
         }
     }
 }
