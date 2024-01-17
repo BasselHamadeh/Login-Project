@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using Npgsql;
 
 namespace Login_Project
 {
@@ -34,6 +35,7 @@ namespace Login_Project
                 {
                     u = user;
                     isLoginSuccessful = true;
+                    UpdateUserInDatabase(u);
                 }
             }
 
@@ -42,14 +44,13 @@ namespace Login_Project
                 try
                 {
                     string WPF = "C:\\Desktop/Desktop/bin/Debug/Desktop.exe";
-
                     Process.Start(new ProcessStartInfo(WPF));
+
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Fehler beim Öffnen der Website: " + ex.Message);
                 }
-
             }
             else if (isLoginSuccessful && u.Status == "Administrator" && u.Sicherheitsgruppe == "Administratoren")
             {
@@ -61,7 +62,42 @@ namespace Login_Project
                 login.TextBoxPasswort.Clear();
                 login.TextBoxPasswort.Focus();
             }
+
         }
+
+        public static void UpdateUserInDatabase(User loggedInUser)
+        {
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "INSERT INTO user_login_informations (benutzername, email, status, gruppe, tag, monat, jahr, uhrzeit) VALUES (@Username, @Email, @Status, @SecurityGroup, @Tag, @Monat, @Jahr, @Uhrzeit)";
+                        cmd.Parameters.AddWithValue("@Username", loggedInUser.Username);
+                        cmd.Parameters.AddWithValue("@Email", loggedInUser.Email);
+                        cmd.Parameters.AddWithValue("@Status", loggedInUser.Status);
+                        cmd.Parameters.AddWithValue("@SecurityGroup", loggedInUser.Sicherheitsgruppe);
+                        cmd.Parameters.AddWithValue("@Tag", DateTime.Now.Day);
+                        cmd.Parameters.AddWithValue("@Monat", DateTime.Now.Month);
+                        cmd.Parameters.AddWithValue("@Jahr", DateTime.Now.Year);
+                        cmd.Parameters.AddWithValue("@Uhrzeit", DateTime.Now.TimeOfDay);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+        }
+
 
         public static void ReadCSV()
         {
