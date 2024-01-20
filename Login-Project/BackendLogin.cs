@@ -67,7 +67,7 @@ namespace Login_Project
 
         public static void UpdateUserInDatabase(User loggedInUser)
         {
-            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=user-database;";
 
             try
             {
@@ -78,7 +78,7 @@ namespace Login_Project
                     using (NpgsqlCommand cmd = new NpgsqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = "INSERT INTO user_login_informations (benutzername, email, status, gruppe, tag, monat, jahr, uhrzeit) VALUES (@Username, @Email, @Status, @SecurityGroup, @Tag, @Monat, @Jahr, @Uhrzeit)";
+                        cmd.CommandText = "INSERT INTO user_login_table (username, email, status, gruppe, tag, monat, jahr, uhrzeit) VALUES (@Username, @Email, @Status, @SecurityGroup, @Tag, @Monat, @Jahr, @Uhrzeit)";
                         cmd.Parameters.AddWithValue("@Username", loggedInUser.Username);
                         cmd.Parameters.AddWithValue("@Email", loggedInUser.Email);
                         cmd.Parameters.AddWithValue("@Status", loggedInUser.Status);
@@ -97,7 +97,6 @@ namespace Login_Project
                 MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
             }
         }
-
 
         public static void ReadCSV()
         {

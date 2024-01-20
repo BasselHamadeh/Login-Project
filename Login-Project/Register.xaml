@@ -72,7 +72,7 @@
             </Button.Resources>
         </Button>
 
-        <Label Name="labelEmailBedingung" Content="E-Mail Bedingung :" FontSize="14" Grid.Column="1" Grid.Row="8"></Label>
+        <Label Name="labelEmailBedingung" FontWeight="Bold" Content="E-Mail Bedingung :" FontSize="14" Grid.Column="1" Grid.Row="8"></Label>
         <Label Name="labelAT" Content="● '@'" FontSize="14" FontWeight="Bold" Grid.Row="8" Grid.Column="1" VerticalAlignment="Center"></Label>
         <Label Name="labelPunkt" Content="● '.'" FontSize="14" FontWeight="Bold" Grid.Row="8" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0 0 250 0" Grid.Column="1"></Label>
 

@@ -327,7 +327,7 @@ namespace Login_Project
 
         public static void PostgreSQLWrite()
         {
-            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=users;";
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=user-database;";
 
             try
             {
