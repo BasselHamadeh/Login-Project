@@ -345,7 +345,16 @@ namespace Login_Project
                         cmd.Parameters.AddWithValue("@NewUsername", newUsername);
                         cmd.Parameters.AddWithValue("@CurrentUsername", currentUsername);
 
-                        cmd.ExecuteNonQuery();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            Console.WriteLine($"Benutzer {currentUsername} wurde erfolgreich zu {newUsername} aktualisiert.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Benutzer {currentUsername} konnte nicht aktualisiert werden. Kein Datensatz gefunden.");
+                        }
                     }
                 }
             }
@@ -354,6 +363,7 @@ namespace Login_Project
                 MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
             }
         }
+
 
         private static void UpdateAdminPasswordInDatabase(string newAdminPassword)
         {
