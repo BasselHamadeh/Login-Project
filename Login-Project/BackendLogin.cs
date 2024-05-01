@@ -43,13 +43,11 @@ namespace Login_Project
             {
                 try
                 {
-                    string WPF = "C:\\Desktop/Desktop/bin/Debug/Desktop.exe";
-                    Process.Start(new ProcessStartInfo(WPF));
-
+                    Process.Start(new ProcessStartInfo("http://localhost:3000"));
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Fehler beim Öffnen der Website: " + ex.Message);
+                    MessageBox.Show("Fehler beim Öffnen des Browsers: " + ex.Message);
                 }
             }
             else if (isLoginSuccessful && u.Status == "Administrator" && u.Sicherheitsgruppe == "Administratoren")
