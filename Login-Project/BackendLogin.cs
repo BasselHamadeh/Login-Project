@@ -52,7 +52,7 @@ namespace Login_Project
             }
             else if (isLoginSuccessful && u.Status == "Administrator" && u.Sicherheitsgruppe == "Administratoren")
             {
-                wnd.content.Content = new Administrator(wnd);
+                wnd.content.Content = new AdminOverview(wnd);
             }
             else
             {

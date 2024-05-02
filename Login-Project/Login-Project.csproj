@@ -104,13 +104,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Administrator.xaml.cs">
-      <DependentUpon>Administrator.xaml</DependentUpon>
-    </Compile>
     <Compile Include="AdminÜbersicht.xaml.cs">
       <DependentUpon>AdminÜbersicht.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BackendAdministrator.cs" />
     <Compile Include="BackendAdminÜbersicht.cs" />
     <Compile Include="BackendBenutzerinfo.cs" />
     <Compile Include="BackendLogin.cs" />
@@ -125,10 +121,6 @@
     <Compile Include="Register.xaml.cs">
       <DependentUpon>Register.xaml</DependentUpon>
     </Compile>
-    <Page Include="Administrator.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="AdminÜbersicht.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

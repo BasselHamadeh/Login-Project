@@ -25,7 +25,6 @@ namespace Login_Project
         public Login login = null;
         public Register register = null;
         public ForgottenPassword forgottenpassword = null;
-        public Administrator admin = null;
         public AdminOverview adminoverview = null;
         public UserInformation userinformation = null;
 
@@ -42,7 +41,6 @@ namespace Login_Project
             login = new Login(this);
             register = new Register(this);
             forgottenpassword = new ForgottenPassword(this);
-            admin = new Administrator(this);
             adminoverview = new AdminOverview(this);
             userinformation = new UserInformation(this);
 
