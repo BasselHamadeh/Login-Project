@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="550" Width="800"
         WindowState="Normal"
-        WindowStyle="None">
+        WindowStyle="None"
+        ResizeMode="NoResize"
+        MouseDown="Window_MouseDown_1">
 
     <Grid>
         <ContentControl Name="content"></ContentControl>

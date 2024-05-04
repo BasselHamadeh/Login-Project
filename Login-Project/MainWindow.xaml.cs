@@ -113,5 +113,11 @@ namespace Login_Project
             ellipsisCount = (ellipsisCount + 1) % 3;
             ellipsis.Text = new string('.', ellipsisCount + 1);
         }
+
+        private void Window_MouseDown_1(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+                this.DragMove();
+        }
     }
 }

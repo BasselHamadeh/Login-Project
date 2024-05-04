@@ -52,7 +52,16 @@ namespace Login_Project
             }
             else if (isLoginSuccessful && u.Status == "Administrator" && u.Sicherheitsgruppe == "Administratoren")
             {
-                wnd.content.Content = new AdminOverview(wnd);
+                try
+                {
+                    Process.Start(new ProcessStartInfo("http://localhost:3000"));
+
+                    wnd.content.Content = new AdminOverview(wnd);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Fehler beim Öffnen des Browsers: " + ex.Message);
+                }
             }
             else
             {
