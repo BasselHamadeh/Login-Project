@@ -390,6 +390,5 @@ namespace Login_Project
                 MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
             }
         }
-
     }
 }

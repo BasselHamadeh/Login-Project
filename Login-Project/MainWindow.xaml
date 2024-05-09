@@ -31,19 +31,6 @@
                     </Button.Resources>
                 </Button>
 
-                <Button BorderBrush="White" Name="maximieren" FontWeight="Heavy" Foreground="White" Background="Black" Content="🗖" FontSize="20" VerticalContentAlignment="Center" Width="35" Height="30" Margin="0 4 7 0" Click="maximieren_Click">
-                    <Button.ToolTip>
-                        <StackPanel>
-                            <TextBlock Text="Maximieren"></TextBlock>
-                        </StackPanel>
-                    </Button.ToolTip>
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="7"></Setter>
-                        </Style>
-                    </Button.Resources>
-                </Button>
-
                 <Button BorderBrush="White" Name="schließen" FontWeight="Heavy" Foreground="White" Background="Black" Content="❌" FontSize="20" VerticalContentAlignment="Center" Width="35" Height="30" Click="schließen_Click"  Margin="0 4 0 0">
                     <Button.ToolTip>
                         <StackPanel>
