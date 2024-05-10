@@ -14,8 +14,6 @@ namespace Login_Project
     {
         public static MainWindow wnd;
 
-        public static string csvDatei = "C:\\Users/Fujitsu/Desktop/XML-Validator-Frontend/public/ressources/benutzerdaten.csv";
-
         public static void TryLogin(Login login, MainWindow main)
         {
             wnd = main;
@@ -29,14 +27,12 @@ namespace Login_Project
 
             User u = new User();
 
-            foreach (User user in BackendRegister.registerUser)
+            u = FetchUserFromDatabase(UsernameEmail, EncryptPassword);
+
+            if (u != null)
             {
-                if ((user.Username == UsernameEmail || user.Email == UsernameEmail) && user.Password == EncryptPassword)
-                {
-                    u = user;
-                    isLoginSuccessful = true;
-                    UpdateUserInDatabase(u);
-                }
+                isLoginSuccessful = true;
+                UpdateUserInDatabase(u);
             }
 
             if (isLoginSuccessful && u.Status == "Benutzer")
@@ -69,7 +65,48 @@ namespace Login_Project
                 login.TextBoxPasswort.Clear();
                 login.TextBoxPasswort.Focus();
             }
+        }
 
+        public static User FetchUserFromDatabase(string usernameEmail, string encryptedPassword)
+        {
+            User user = null;
+
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=user-database;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand())
+                    {
+                        cmd.Connection = conn;
+                        cmd.CommandText = "SELECT * FROM user_table WHERE (username = @UsernameEmail OR email = @UsernameEmail) AND password = @EncryptedPassword";
+                        cmd.Parameters.AddWithValue("@UsernameEmail", usernameEmail);
+                        cmd.Parameters.AddWithValue("@EncryptedPassword", encryptedPassword);
+
+                        using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                user = new User();
+                                user.Username = reader["username"].ToString();
+                                user.Email = reader["email"].ToString();
+                                user.Status = reader["status"].ToString();
+                                user.Sicherheitsgruppe = reader["sicherheitsgruppe"].ToString();
+                                user.Password = reader["password"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+
+            return user;
         }
 
         public static void UpdateUserInDatabase(User loggedInUser)
