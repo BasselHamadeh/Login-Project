@@ -224,46 +224,29 @@ namespace Login_Project
         {
             string Benutzer = register.TextBoxBenutzer.Text;
 
-            foreach (User user in registerUser)
+            User foundUser = BackendAdminÜbersicht.SearchUserInDatabase(Benutzer);
+
+            if (foundUser != null)
             {
-                if (user.Username == Benutzer)
+                if (register.labelBenutzerExistiert != null)
                 {
-                    if (register.labelBenutzerExistiert != null)
-                    {
-                        register.labelBenutzerExistiert.Visibility = Visibility.Visible;
-                    }
-                    return false;
+                    register.labelBenutzerExistiert.Visibility = Visibility.Visible;
                 }
+                return false;
             }
-
-            if (register.labelBenutzerExistiert != null)
+            else
             {
-                register.labelBenutzerExistiert.Visibility = Visibility.Collapsed;
+                if (register.labelBenutzerExistiert != null)
+                {
+                    register.labelBenutzerExistiert.Visibility = Visibility.Collapsed;
+                }
+                return true;
             }
-
-            return true;
         }
 
         public static bool EmailCondition(Register register)
         {
-            if (registerUser == null)
-            {
-                return false;
-            }
-
             string emailAdresse = register.TextBoxEmail.Text;
-
-            foreach (User user in registerUser)
-            {
-                if (user.Email == emailAdresse)
-                {
-                    if (register.labelEmailExistiert != null)
-                    {
-                        register.labelEmailExistiert.Visibility = Visibility.Visible;
-                    }
-                    return false;
-                }
-            }
 
             if (!emailAdresse.Contains("@"))
             {
@@ -297,12 +280,24 @@ namespace Login_Project
                 }
             }
 
-            if (register.labelEmailExistiert != null)
-            {
-                register.labelEmailExistiert.Visibility = Visibility.Collapsed;
-            }
+            User foundEmail = SearchEmailInDatabase(emailAdresse);
 
-            return true;
+            if (foundEmail != null)
+            {
+                if (register.labelEmailExistiert != null)
+                {
+                    register.labelEmailExistiert.Visibility = Visibility.Visible;
+                }
+                return false;
+            }
+            else
+            {
+                if (register.labelEmailExistiert != null)
+                {
+                    register.labelEmailExistiert.Visibility = Visibility.Collapsed;
+                }
+                return true;
+            }
         }
 
         public static void ButtonRegsiterEnabled(Register register)
@@ -386,6 +381,45 @@ namespace Login_Project
             }
 
             CSVWrite();
+        }
+
+        public static User SearchEmailInDatabase(string email)
+        {
+            User foundEmail = null;
+
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=user-database;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT * FROM user_table WHERE email = @Email";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Email", email);
+
+                        using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                foundEmail = new User();
+                                foundEmail.Username = reader["username"].ToString();
+                                foundEmail.Status = reader["status"].ToString();
+                                foundEmail.Sicherheitsgruppe = reader["sicherheitsgruppe"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+
+            return foundEmail;
         }
     }
 }

@@ -16,9 +16,9 @@ namespace Login_Project
         {
             string Benutzersuche = admin.TextBoxBenutzerEingabeSuche.Text;
 
-            string Usernames = BackendPasswort.ReadDataCSV(Benutzersuche);
+            User foundUser = SearchUserInDatabase(Benutzersuche);
 
-            if (!string.IsNullOrEmpty(Usernames))
+            if (foundUser != null)
             {
                 Anzeigen = false;
                 admin.TextBoxNeuerBenutzername.IsEnabled = true;
@@ -196,7 +196,8 @@ namespace Login_Project
                 return false;
             }
 
-            bool benutzerGefunden = BackendRegister.registerUser.Any(user => user.Username == Benutzer);
+            User foundUser = SearchUserInDatabase(Benutzer);
+            bool benutzerGefunden = foundUser != null;
 
             admin.labelBenutzerExistiertNicht.Visibility = benutzerGefunden ? Visibility.Collapsed : Visibility.Visible;
 
@@ -389,6 +390,45 @@ namespace Login_Project
             {
                 MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
             }
+        }
+
+        public static User SearchUserInDatabase(string username)
+        {
+            User foundUser = null;
+
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=user-database;";
+
+            try
+            {
+                using (NpgsqlConnection conn = new NpgsqlConnection(connString))
+                {
+                    conn.Open();
+
+                    string query = "SELECT * FROM user_table WHERE username = @Username";
+
+                    using (NpgsqlCommand cmd = new NpgsqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@Username", username);
+
+                        using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                foundUser = new User();
+                                foundUser.Username = reader["username"].ToString();
+                                foundUser.Status = reader["status"].ToString();
+                                foundUser.Sicherheitsgruppe = reader["sicherheitsgruppe"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
+            }
+
+            return foundUser;
         }
     }
 }

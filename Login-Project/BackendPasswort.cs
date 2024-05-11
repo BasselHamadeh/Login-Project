@@ -47,30 +47,20 @@ namespace Login_Project
             }
             else
             {
-                bool isEmailFound = false;
+                User foundEmail = BackendRegister.SearchEmailInDatabase(Email);
 
-                foreach (User u in BackendRegister.registerUser)
+                if (foundEmail != null)
                 {
-                    if (u.Email == Email)
-                    {
-                        u.Password = BackendRegister.EncryptPassword(newPassword);
-                        isEmailFound = true;
+                    foundEmail.Password = BackendRegister.EncryptPassword(newPassword);
 
-                        UpdatePasswordInDatabase(Email, newPassword);
+                    UpdatePasswordInDatabase(Email, newPassword);
 
-                        BackendRegister.CSVWrite();
-                        BackendRegister.PostgreSQLWrite();
-                        break;
-                    }
-                }
-
-                if (isEmailFound)
-                {
-                    MessageBox.Show("Passwort erfolgreich zurückgesetzt.");
-                    wnd.content.Content = new Login(wnd);
-                    wnd.login.TextBoxBenutzerEmail.Text = passwordReset.TextBoxEmailEingabe.Text;
                     BackendRegister.CSVWrite();
                     BackendRegister.PostgreSQLWrite();
+
+                    MessageBox.Show("Passwort erfolgreich zurückgesetzt.");
+                    wnd.content.Content = new Login(wnd);
+                    wnd.login.TextBoxBenutzerEmail.Text = Email;
                 }
                 else
                 {
@@ -83,7 +73,15 @@ namespace Login_Project
         {
             string Email = passwd.TextBoxEmailEingabe.Text;
 
-            if (string.IsNullOrEmpty(Email) || !IsExistingEmail(Email))
+            if (string.IsNullOrEmpty(Email))
+            {
+                passwd.labelBenutzerExistiertNicht.Visibility = Visibility.Visible;
+                return false;
+            }
+
+            User foundEmail = BackendRegister.SearchEmailInDatabase(Email);
+
+            if (foundEmail == null)
             {
                 passwd.labelBenutzerExistiertNicht.Visibility = Visibility.Visible;
                 return false;
@@ -93,18 +91,6 @@ namespace Login_Project
                 passwd.labelBenutzerExistiertNicht.Visibility = Visibility.Collapsed;
                 return true;
             }
-        }
-
-        public static bool IsExistingEmail(string email)
-        {
-            foreach (User u in BackendRegister.registerUser)
-            {
-                if (u.Email == email)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public static void ButtonSearchEnabled(ForgottenPassword passwd)

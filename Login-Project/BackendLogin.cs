@@ -67,7 +67,7 @@ namespace Login_Project
             }
         }
 
-        public static User FetchUserFromDatabase(string usernameEmail, string encryptedPassword)
+        public static User FetchUserFromDatabase(string UsernameAndEmail, string encryptedPassword)
         {
             User user = null;
 
@@ -83,7 +83,7 @@ namespace Login_Project
                     {
                         cmd.Connection = conn;
                         cmd.CommandText = "SELECT * FROM user_table WHERE (username = @UsernameEmail OR email = @UsernameEmail) AND password = @EncryptedPassword";
-                        cmd.Parameters.AddWithValue("@UsernameEmail", usernameEmail);
+                        cmd.Parameters.AddWithValue("@UsernameEmail", UsernameAndEmail);
                         cmd.Parameters.AddWithValue("@EncryptedPassword", encryptedPassword);
 
                         using (NpgsqlDataReader reader = cmd.ExecuteReader())
