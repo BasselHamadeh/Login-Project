@@ -107,11 +107,11 @@
     <Compile Include="AdminÜbersicht.xaml.cs">
       <DependentUpon>AdminÜbersicht.xaml</DependentUpon>
     </Compile>
-    <Compile Include="BackendAdminÜbersicht.cs" />
-    <Compile Include="BackendBenutzerinfo.cs" />
-    <Compile Include="BackendLogin.cs" />
-    <Compile Include="BackendPasswort.cs" />
-    <Compile Include="BackendRegister.cs" />
+    <Compile Include="AdminUebersicht.cs" />
+    <Compile Include="Benutzerinfo.cs" />
+    <Compile Include="Login.cs" />
+    <Compile Include="Passwort.cs" />
+    <Compile Include="Register.cs" />
     <Compile Include="Benutzerinformation.xaml.cs">
       <DependentUpon>Benutzerinformation.xaml</DependentUpon>
     </Compile>

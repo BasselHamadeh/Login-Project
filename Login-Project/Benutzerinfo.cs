@@ -1,14 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-
-namespace Login_Project
+﻿namespace Login_Project
 {
-    public class BackendBenutzerinfo
+    public class Benutzerinfo
     {
         public static string LabelEmail = "";
         public static string LabelPasswort = "";
@@ -19,7 +11,7 @@ namespace Login_Project
         {
             string benutzername = admin.TextBoxBenutzerEingabeSuche.Text;
 
-            foreach (User u in BackendRegister.registerUser)
+            foreach (User u in Register.registerUser)
             {
                 if (u.Username == benutzername)
                 {

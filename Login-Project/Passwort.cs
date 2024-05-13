@@ -1,19 +1,12 @@
-﻿using Microsoft.Win32;
-using Npgsql;
+﻿using Npgsql;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 
 namespace Login_Project
 {
-    public class BackendPasswort
+    public class Passwort
     {
         public static MainWindow wnd;
 
@@ -47,15 +40,15 @@ namespace Login_Project
             }
             else
             {
-                User foundEmail = BackendRegister.SearchEmailInDatabase(Email);
+                User foundEmail = Register.SearchEmailInDatabase(Email);
 
                 if (foundEmail != null)
                 {
-                    foundEmail.Password = BackendRegister.EncryptPassword(newPassword);
+                    foundEmail.Password = Register.EncryptPassword(newPassword);
 
                     UpdatePasswordInDatabase(Email, newPassword);
 
-                    BackendRegister.PostgreSQLWrite();
+                    Register.PostgreSQLWrite();
 
                     MessageBox.Show("Passwort erfolgreich zurückgesetzt.");
                     wnd.content.Content = new Login(wnd);
@@ -78,7 +71,7 @@ namespace Login_Project
                 return false;
             }
 
-            User foundEmail = BackendRegister.SearchEmailInDatabase(Email);
+            User foundEmail = Register.SearchEmailInDatabase(Email);
 
             if (foundEmail == null)
             {
@@ -196,7 +189,7 @@ namespace Login_Project
                     {
                         cmd.Connection = conn;
                         cmd.CommandText = "UPDATE user_table SET password = @NewPassword WHERE email = @Email";
-                        cmd.Parameters.AddWithValue("@NewPassword", BackendRegister.EncryptPassword(newPassword));
+                        cmd.Parameters.AddWithValue("@NewPassword", Register.EncryptPassword(newPassword));
                         cmd.Parameters.AddWithValue("@Email", email);
 
                         cmd.ExecuteNonQuery();

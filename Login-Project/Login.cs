@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using Npgsql;
 
 namespace Login_Project
 {
-    public class BackendLogin
+    public partial class Login
     {
-        public static MainWindow wnd;
-
         public static void TryLogin(Login login, MainWindow main)
         {
             wnd = main;
@@ -21,7 +14,7 @@ namespace Login_Project
             string UsernameEmail = login.TextBoxBenutzerEmail.Text;
             string Password = login.TextBoxPasswort.Password;
 
-            string EncryptPassword = BackendRegister.EncryptPassword(Password);
+            string EncryptPassword = Register.EncryptPassword(Password);
 
             bool isLoginSuccessful = false;
 
@@ -123,15 +116,14 @@ namespace Login_Project
                     using (NpgsqlCommand cmd = new NpgsqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = "INSERT INTO user_login_table (username, email, status, gruppe, tag, monat, jahr, uhrzeit) VALUES (@Username, @Email, @Status, @SecurityGroup, @Tag, @Monat, @Jahr, @Uhrzeit)";
-                        cmd.Parameters.AddWithValue("@Username", loggedInUser.Username);
+                        cmd.CommandText = "INSERT INTO user_login_table (email, status, gruppe, tag, monat, jahr, uhrzeit) VALUES (@Email, @Status, @SecurityGroup, @Tag, @Monat, @Jahr, @Uhrzeit)";
                         cmd.Parameters.AddWithValue("@Email", loggedInUser.Email);
                         cmd.Parameters.AddWithValue("@Status", loggedInUser.Status);
                         cmd.Parameters.AddWithValue("@SecurityGroup", loggedInUser.Sicherheitsgruppe);
                         cmd.Parameters.AddWithValue("@Tag", DateTime.Now.Day);
                         cmd.Parameters.AddWithValue("@Monat", DateTime.Now.Month);
                         cmd.Parameters.AddWithValue("@Jahr", DateTime.Now.Year);
-                        cmd.Parameters.AddWithValue("@Uhrzeit", DateTime.Now.TimeOfDay);
+                        cmd.Parameters.AddWithValue("@Uhrzeit", DateTime.Now.ToString("HH:mm"));
 
                         cmd.ExecuteNonQuery();
                     }

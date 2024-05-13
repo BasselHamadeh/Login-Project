@@ -1,18 +1,7 @@
-﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Login_Project
 {
@@ -40,7 +29,7 @@ namespace Login_Project
 
         private void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
-            BackendRegister.TryRegister(this, wnd);
+            Register.TryRegister(this, wnd);
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -50,32 +39,32 @@ namespace Login_Project
 
         private void TextBoxBenutzer_TextChanged(object sender, TextChangedEventArgs e)
         {
-            BackendRegister.UserCondition(this);
-            BackendRegister.ButtonRegsiterEnabled(this);
+            Register.UserCondition(this);
+            Register.ButtonRegsiterEnabled(this);
         }
 
         private void TextBoxEmail_TextChanged(object sender, TextChangedEventArgs e)
         {
-            BackendRegister.EmailCondition(this);
-            BackendRegister.ButtonRegsiterEnabled(this);
+            Register.EmailCondition(this);
+            Register.ButtonRegsiterEnabled(this);
         }
 
         private void TextBoxPasswort_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            BackendRegister.PasswordCondition(this);
-            BackendRegister.ButtonRegsiterEnabled(this);
+            Register.PasswordCondition(this);
+            Register.ButtonRegsiterEnabled(this);
         }
 
         private void TextBoxPasswortBestätigung_PasswordChanged(object sender, RoutedEventArgs e)
         {
             labelPasswortÜbereinstimmung.Visibility = Visibility.Visible;
-            BackendRegister.PasswordCondition(this);
-            BackendRegister.ButtonRegsiterEnabled(this);
+            Register.PasswordCondition(this);
+            Register.ButtonRegsiterEnabled(this);
         }
 
         private void ButtonRegister_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            BackendRegister.ButtonRegsiterEnabled(this);
+            Register.ButtonRegsiterEnabled(this);
 
             if (ButtonRegister.IsEnabled)
             {

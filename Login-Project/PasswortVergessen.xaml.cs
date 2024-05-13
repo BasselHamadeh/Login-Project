@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Login_Project
 {
@@ -38,7 +28,7 @@ namespace Login_Project
         {
             string UserInput = TextBoxEmailEingabe.Text;
 
-            User foundUser = BackendRegister.SearchEmailInDatabase(UserInput);
+            User foundUser = Register.SearchEmailInDatabase(UserInput);
 
             if (foundUser != null)
             {
@@ -71,20 +61,20 @@ namespace Login_Project
 
         public void ButtonPasswort_Click(object sender, RoutedEventArgs e)
         {
-            BackendPasswort.ResetPassword(this, wnd);
+            Passwort.ResetPassword(this, wnd);
         }
 
         private void TextBoxPasswort_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            BackendPasswort.PasswordCondition(this);
-            BackendPasswort.ButtonSearchEnabled(this);
+            Passwort.PasswordCondition(this);
+            Passwort.ButtonSearchEnabled(this);
         }
 
         private void TextBoxPasswortBestätigung_PasswordChanged(object sender, RoutedEventArgs e)
         {
             labelPasswortÜbereinstimmung.Visibility = Visibility.Visible;
-            BackendPasswort.PasswordCondition(this);
-            BackendPasswort.ButtonSearchEnabled(this);
+            Passwort.PasswordCondition(this);
+            Passwort.ButtonSearchEnabled(this);
         }
 
         private void ButtonPasswort_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -130,7 +120,7 @@ namespace Login_Project
 
         private void TextBoxBenutzerEingabe_TextChanged(object sender, TextChangedEventArgs e)
         {
-            BackendPasswort.ButtonSearchEnabled(this);
+            Passwort.ButtonSearchEnabled(this);
         }
 
         private void TextBoxBenutzerEingabe_MouseEnter(object sender, MouseEventArgs e)

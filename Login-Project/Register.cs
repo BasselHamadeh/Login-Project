@@ -1,22 +1,17 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
 using Npgsql;
 
 namespace Login_Project
 {
-    public class BackendRegister
+    public partial class Register
     {
-        public static MainWindow wnd;
 
         public static List<User> registerUser = new List<User>();
 
@@ -210,7 +205,7 @@ namespace Login_Project
         {
             string Benutzer = register.TextBoxBenutzer.Text;
 
-            User foundUser = BackendAdminÜbersicht.SearchUserInDatabase(Benutzer);
+            User foundUser = AdminUebersicht.SearchUserInDatabase(Benutzer);
 
             if (foundUser != null)
             {

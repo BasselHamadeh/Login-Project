@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Login_Project
 {
@@ -33,12 +23,12 @@ namespace Login_Project
 
         private void ButtonBenutzerSuche_Click(object sender, RoutedEventArgs e)
         {
-            BackendAdminÜbersicht.UserSearch(this);
+            AdminUebersicht.UserSearch(this);
         }
 
         private void ButtonKontoLöschen_Click(object sender, RoutedEventArgs e)
         {
-            BackendAdminÜbersicht.DeleteAccount(this);
+            AdminUebersicht.DeleteAccount(this);
         }
 
         private void ButtonHauptmenü_Click(object sender, RoutedEventArgs e)
@@ -48,18 +38,18 @@ namespace Login_Project
 
         private void ButtonÜbernehmen_Click(object sender, RoutedEventArgs e)
         {
-            BackendAdminÜbersicht.NewUsername(this);
+            AdminUebersicht.NewUsername(this);
         }
 
         private void ButtonBenutzerInfo_Click(object sender, RoutedEventArgs e)
         {
             wnd.content.Content = wnd.userinformation;
-            BackendBenutzerinfo.UserInfo(this, wnd.userinformation);
+            Benutzerinfo.UserInfo(this, wnd.userinformation);
         }
 
         private void ButtonÜbernehmenAdmin_Click(object sender, RoutedEventArgs e)
         {
-            BackendAdminÜbersicht.PasswordAdmin(this);
+            AdminUebersicht.PasswordAdmin(this);
         }
 
         private void Grid_Loaded(object sender, RoutedEventArgs e)
@@ -93,7 +83,7 @@ namespace Login_Project
 
         private void TextBoxBenutzerEingabeSuche_TextChanged(object sender, TextChangedEventArgs e)
         {
-            BackendAdminÜbersicht.UserCondition(this);
+            AdminUebersicht.UserCondition(this);
 
             if (TextBoxBenutzerEingabeSuche.Text != "")
             {
@@ -103,12 +93,12 @@ namespace Login_Project
 
         private void ButtonAdminErnennung_Click(object sender, RoutedEventArgs e)
         {
-            BackendAdminÜbersicht.AddAdmin(this);
+            AdminUebersicht.AddAdmin(this);
         }
 
         private void ButtonAdminEntfernung_Click(object sender, RoutedEventArgs e)
         {
-            BackendAdminÜbersicht.RemoveAdmin(this);
+            AdminUebersicht.RemoveAdmin(this);
         }
 
         private void TextBoxBenutzerEingabeSuche_MouseEnter(object sender, MouseEventArgs e)

@@ -2,13 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Login_Project
 {
-    public class BackendAdminÜbersicht
+    public class AdminUebersicht
     {
         public static bool Anzeigen = false;
 
@@ -49,11 +47,11 @@ namespace Login_Project
         {
             string Benutzer = admin.TextBoxBenutzerEingabeSuche.Text;
 
-            List<User> benutzerToRemove = BackendRegister.registerUser.Where(u => u.Username == Benutzer).ToList();
+            List<User> benutzerToRemove = Register.registerUser.Where(u => u.Username == Benutzer).ToList();
 
             foreach (User u in benutzerToRemove)
             {
-                BackendRegister.registerUser.Remove(u);
+                Register.registerUser.Remove(u);
             }
 
             admin.ButtonBenutzerInfo.IsHitTestVisible = false;
@@ -87,7 +85,7 @@ namespace Login_Project
                 return;
             }
 
-            if (BackendRegister.registerUser.Any(u => u.Username == newUsername))
+            if (SearchUserInDatabase(newUsername) != null)
             {
                 MessageBox.Show("Der neue Benutzername ist bereits vergeben. Bitte wählen Sie einen anderen Benutzernamen.", "Fehler");
                 admin.TextBoxNeuerBenutzername.Text = "";
@@ -95,7 +93,8 @@ namespace Login_Project
                 return;
             }
 
-            User userToModify = BackendRegister.registerUser.FirstOrDefault(u => u.Username == currentUsername);
+            User userToModify = Register.registerUser.FirstOrDefault(u => u.Username == currentUsername);
+
             if (userToModify != null)
             {
                 userToModify.Username = newUsername;
@@ -103,10 +102,6 @@ namespace Login_Project
                 MessageBox.Show($"Benutzername wurde erfolgreich von  \"{currentUsername}\"  zu  \"{newUsername}\"  geändert.", "Erfolg");
 
                 admin.TextBoxBenutzerEingabeSuche.Text = newUsername;
-            }
-            else
-            {
-                MessageBox.Show($"Benutzer \"{currentUsername}\" nicht gefunden.", "Fehler");
             }
         }
 
@@ -179,9 +174,9 @@ namespace Login_Project
         {
             string newAdminPassword = admin.TextBoxPasswortAdmin.Password;
 
-            foreach (User adminUser in BackendRegister.registerUser.Where(user => user.Status == "Administrator"))
+            foreach (User adminUser in Register.registerUser.Where(user => user.Status == "Administrator"))
             {
-                adminUser.Password = BackendRegister.EncryptPassword(newAdminPassword);
+                adminUser.Password = Register.EncryptPassword(newAdminPassword);
             }
 
             UpdateAdminPasswordInDatabase(newAdminPassword);
@@ -237,7 +232,7 @@ namespace Login_Project
                         {
                             Console.WriteLine($"Benutzer {username} wurde erfolgreich zu Administrator ernannt.");
 
-                            User adminUser = BackendRegister.registerUser.FirstOrDefault(u => u.Username == username);
+                            User adminUser = Register.registerUser.FirstOrDefault(u => u.Username == username);
                             if (adminUser != null)
                             {
                                 adminUser.Status = "Administrator";
@@ -279,7 +274,7 @@ namespace Login_Project
                         {
                             Console.WriteLine($"Benutzer {username} wurde erfolgreich von den Administratoren entfernt.");
 
-                            User adminUser = BackendRegister.registerUser.FirstOrDefault(u => u.Username == username);
+                            User adminUser = Register.registerUser.FirstOrDefault(u => u.Username == username);
                             if (adminUser != null)
                             {
                                 adminUser.Status = "Benutzer";
@@ -349,7 +344,7 @@ namespace Login_Project
                     {
                         cmd.Connection = conn;
                         cmd.CommandText = "UPDATE user_table SET password = @NewAdminPassword WHERE status = 'Administrator'";
-                        cmd.Parameters.AddWithValue("@NewAdminPassword", BackendRegister.EncryptPassword(newAdminPassword));
+                        cmd.Parameters.AddWithValue("@NewAdminPassword", Register.EncryptPassword(newAdminPassword));
 
                         cmd.ExecuteNonQuery();
                     }
