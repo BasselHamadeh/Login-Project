@@ -38,9 +38,9 @@ namespace Login_Project
         {
             string UserInput = TextBoxEmailEingabe.Text;
 
-            string password = BackendPasswort.ReadDataCSV(UserInput);
+            User foundUser = BackendRegister.SearchEmailInDatabase(UserInput);
 
-            if (!string.IsNullOrEmpty(password))
+            if (foundUser != null)
             {
                 labelNameEmail.Visibility = Visibility.Collapsed;
                 TextBoxEmailEingabe.Visibility = Visibility.Collapsed;

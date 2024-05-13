@@ -29,39 +29,18 @@ namespace Login_Project
                 admin.ButtonBenutzerSuche.IsHitTestVisible = false;
                 admin.TextBoxNeuerBenutzername.Focus();
 
-                User u = null;
-
-                foreach (User user in BackendRegister.registerUser)
+                if (foundUser.Status == "Administrator" || foundUser.Sicherheitsgruppe == "Administratoren")
                 {
-                    if (Benutzersuche == user.Username)
-                    {
-                        u = user;
-                        break;
-                    }
-                }
-
-                if (Benutzersuche.ToLower() == "admin" || Benutzersuche.ToLower() == "administrator")
-                {
-                    admin.ButtonAdminEntfernung.IsHitTestVisible = false;
-                    admin.ButtonKontoLöschen.IsHitTestVisible = false;
+                    admin.ButtonAdminEntfernung.IsHitTestVisible = true;
+                    admin.ButtonKontoLöschen.IsHitTestVisible = true;
                     admin.ButtonAdminErnennung.IsHitTestVisible = false;
                     admin.TextBoxPasswortAdmin.IsEnabled = true;
                 }
-                else if (u != null)
+                else
                 {
-                    if (u.Status == "Administrator" || u.Sicherheitsgruppe == "Administratoren")
-                    {
-                        admin.ButtonAdminEntfernung.IsHitTestVisible = true;
-                        admin.ButtonKontoLöschen.IsHitTestVisible = true;
-                        admin.ButtonAdminErnennung.IsHitTestVisible = false;
-                        admin.TextBoxPasswortAdmin.IsEnabled = true;
-                    }
-                    else
-                    {
-                        admin.ButtonAdminEntfernung.IsHitTestVisible = false;
-                        admin.ButtonKontoLöschen.IsHitTestVisible = true;
-                        admin.ButtonAdminErnennung.IsHitTestVisible = true;
-                    }
+                    admin.ButtonAdminEntfernung.IsHitTestVisible = false;
+                    admin.ButtonKontoLöschen.IsHitTestVisible = true;
+                    admin.ButtonAdminErnennung.IsHitTestVisible = true;
                 }
             }
         }
@@ -82,7 +61,6 @@ namespace Login_Project
             admin.ButtonAdminErnennung.IsHitTestVisible = false;
             admin.TextBoxNeuerBenutzername.IsEnabled = false;
 
-            BackendRegister.CSVWrite();
             PostgreSQLDelete(Benutzer);
 
             MessageBox.Show($"Konto \"{Benutzer}\" wurde erfolgreich gelöscht.");
@@ -122,7 +100,6 @@ namespace Login_Project
             {
                 userToModify.Username = newUsername;
                 UpdateUsernameInDatabase(currentUsername, newUsername);
-                BackendRegister.CSVWrite();
                 MessageBox.Show($"Benutzername wurde erfolgreich von  \"{currentUsername}\"  zu  \"{newUsername}\"  geändert.", "Erfolg");
 
                 admin.TextBoxBenutzerEingabeSuche.Text = newUsername;
@@ -144,7 +121,6 @@ namespace Login_Project
                     AddAdminToDatabase(benutzername);
 
                     MessageBox.Show($"{benutzername} wurde zu Administrator ernannt.");
-                    BackendRegister.CSVWrite();
                 }
                 else
                 {
@@ -155,8 +131,6 @@ namespace Login_Project
             {
                 MessageBox.Show($"Fehler beim Hinzufügen des Admins: {ex.Message}", "Fehler");
             }
-
-            BackendRegister.CSVWrite();
         }
 
         public static void RemoveAdmin(AdminOverview admin)
@@ -171,7 +145,6 @@ namespace Login_Project
                     RemoveAdminFromDatabase(benutzername);
 
                     MessageBox.Show($"{benutzername} wurde von den Administratoren entfernt.");
-                    BackendRegister.CSVWrite();
                 }
                 else
                 {
@@ -182,8 +155,6 @@ namespace Login_Project
             {
                 MessageBox.Show($"Fehler beim Entfernen des Admins: {ex.Message}", "Fehler");
             }
-
-            BackendRegister.CSVWrite();
         }
 
         public static bool UserCondition(AdminOverview admin)
@@ -214,7 +185,6 @@ namespace Login_Project
             }
 
             UpdateAdminPasswordInDatabase(newAdminPassword);
-            BackendRegister.CSVWrite();
 
             MessageBox.Show("Admin Passwort wurde geändert.");
         }
@@ -364,7 +334,6 @@ namespace Login_Project
                 MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
             }
         }
-
 
         private static void UpdateAdminPasswordInDatabase(string newAdminPassword)
         {

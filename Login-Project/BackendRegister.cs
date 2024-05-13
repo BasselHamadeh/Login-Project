@@ -100,7 +100,6 @@ namespace Login_Project
             {
                 MessageBox.Show("Registrierung erfolgreich.");
                 registerUser.Add(newUser);
-                CSVWrite();
                 PostgreSQLWrite();
 
                 wnd.content.Content = new Login(wnd);
@@ -114,10 +113,10 @@ namespace Login_Project
             return Regex.IsMatch(input, usernamePattern);
         }
 
-        public static bool EmailValid(string username)
+        public static bool EmailValid(string email)
         {
-            string pattern = @"^\w+@\w+\.\w+$";
-            return Regex.IsMatch(username, pattern, RegexOptions.IgnoreCase);
+            string pattern = @"^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$";
+            return Regex.IsMatch(email, pattern, RegexOptions.IgnoreCase);
         }
 
         public static string EncryptPassword(string password)
@@ -128,19 +127,6 @@ namespace Login_Project
                 byte[] hashedBytes = sha256.ComputeHash(passwordBytes);
 
                 return Convert.ToBase64String(hashedBytes);
-            }
-        }
-
-        public static void CSVWrite()
-        {
-            string dateiPfad = "C:\\Users/Fujitsu/Desktop/XML-Validator-Frontend/public/ressources/benutzerdaten.csv";
-
-            using (StreamWriter sw = new StreamWriter(dateiPfad, false))
-            {
-                foreach (User u in registerUser)
-                {
-                    sw.WriteLine(u.Username + "," + u.Email + "," + u.Status + "," + u.Sicherheitsgruppe + "," + u.Password);
-                }
             }
         }
 
@@ -341,8 +327,6 @@ namespace Login_Project
                         }
                     }
                 }
-
-                CSVWrite();
             }
             catch (Exception ex)
             {
@@ -379,8 +363,6 @@ namespace Login_Project
 
                 cmd.ExecuteNonQuery();
             }
-
-            CSVWrite();
         }
 
         public static User SearchEmailInDatabase(string email)

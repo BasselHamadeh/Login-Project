@@ -40,6 +40,7 @@ namespace Login_Project
                 try
                 {
                     Process.Start(new ProcessStartInfo("http://localhost:3000"));
+                    wnd.Close();
                 }
                 catch (Exception ex)
                 {
@@ -139,45 +140,6 @@ namespace Login_Project
             catch (Exception ex)
             {
                 MessageBox.Show("Fehler bei der PostgreSQL-Verbindung oder Datenbankoperation: " + ex.Message, "Fehler");
-            }
-        }
-
-        public static void ReadCSV()
-        {
-            string csvDatei = "C:\\Users/Fujitsu/Desktop/XML-Validator-Frontend/public/ressources/benutzerdaten.csv";
-            string[] line = File.ReadAllLines(csvDatei);
-
-            try
-            {
-                if (String.IsNullOrEmpty(line[0]))
-                {
-                    return;
-                }
-            }
-            catch (Exception)
-            {
-                if (line == null)
-                {
-                    return;
-                }
-            }
-
-            while (BackendRegister.registerUser.Count > 0)
-            {
-                BackendRegister.registerUser.RemoveAt(0);
-            }
-
-            foreach (string user in line)
-            {
-                string[] ar = user.Split(',');
-                User u = new User();
-
-                u.Username = ar[0];
-                u.Email = ar[1];
-                u.Status = ar[2];
-                u.Sicherheitsgruppe = ar[3];
-                u.Password = ar[4];
-                BackendRegister.registerUser.Add(u);
             }
         }
     }

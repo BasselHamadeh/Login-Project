@@ -55,7 +55,6 @@ namespace Login_Project
 
                     UpdatePasswordInDatabase(Email, newPassword);
 
-                    BackendRegister.CSVWrite();
                     BackendRegister.PostgreSQLWrite();
 
                     MessageBox.Show("Passwort erfolgreich zurückgesetzt.");
@@ -181,56 +180,6 @@ namespace Login_Project
             }
 
             return hasUppercase && hasLowercase && hasDigit && isLengthValid && hasSpecialCharacter;
-        }
-
-        public static string ReadDataCSV(string inputUsernameOrEmail)
-        {
-            string encryptedPassword = null;
-            string decryptedPassword = null;
-
-            string csvFilePath = "C:\\Users/Fujitsu/Desktop/XML-Validator-Frontend/public/ressources/benutzerdaten.csv";
-
-            try
-            {
-                using (StreamReader reader = new StreamReader(csvFilePath))
-                {
-                    while (!reader.EndOfStream)
-                    {
-                        string line = reader.ReadLine();
-                        if (line == null)
-                            continue;
-
-                        string[] fields = line.Split(',');
-                        if (fields.Length < 3)
-                            continue;
-
-                        string username = fields[0];
-                        string email = fields[1];
-
-                        if (username == inputUsernameOrEmail || email == inputUsernameOrEmail)
-                        {
-                            encryptedPassword = fields[2];
-                            break;
-                        }
-                    }
-                }
-
-                if (!string.IsNullOrEmpty(encryptedPassword))
-                {
-                    decryptedPassword = DecryptPassword(encryptedPassword);
-                }
-
-                return decryptedPassword;
-            }
-            catch (IOException)
-            {
-                return null;
-            }
-        }
-
-        public static string DecryptPassword(string encryptedPassword)
-        {
-            return encryptedPassword;
         }
 
         public static void UpdatePasswordInDatabase(string email, string newPassword)

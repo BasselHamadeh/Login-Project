@@ -27,8 +27,6 @@ namespace Login_Project
         {
             InitializeComponent();
             wnd = main;
-
-            BackendLogin.ReadCSV();
         }
 
         private void ButtonAusgang_Click(object sender, RoutedEventArgs e)
