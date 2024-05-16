@@ -177,7 +177,7 @@ namespace Login_Project
 
         public static void UpdatePasswordInDatabase(string email, string newPassword)
         {
-            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=user-database;";
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=XML-Validator-DB;";
 
             try
             {

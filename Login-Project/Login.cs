@@ -65,7 +65,7 @@ namespace Login_Project
         {
             User user = null;
 
-            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=user-database;";
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=XML-Validator-DB;";
 
             try
             {
@@ -105,7 +105,7 @@ namespace Login_Project
 
         public static void UpdateUserInDatabase(User loggedInUser)
         {
-            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=user-database;";
+            string connString = "Host=localhost;Port=5432;Username=postgres;Password=Syria2003!;Database=XML-Validator-DB;";
 
             try
             {
