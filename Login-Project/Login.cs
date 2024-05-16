@@ -116,10 +116,10 @@ namespace Login_Project
                     using (NpgsqlCommand cmd = new NpgsqlCommand())
                     {
                         cmd.Connection = conn;
-                        cmd.CommandText = "INSERT INTO user_login_table (email, status, gruppe, tag, monat, jahr, uhrzeit) VALUES (@Email, @Status, @SecurityGroup, @Tag, @Monat, @Jahr, @Uhrzeit)";
+                        cmd.CommandText = "INSERT INTO user_login_table (username, email, gruppe, tag, monat, jahr, uhrzeit) VALUES (@Username, @Email, @gruppe, @Tag, @Monat, @Jahr, @Uhrzeit)";
+                        cmd.Parameters.AddWithValue("@Username", loggedInUser.Username);
                         cmd.Parameters.AddWithValue("@Email", loggedInUser.Email);
-                        cmd.Parameters.AddWithValue("@Status", loggedInUser.Status);
-                        cmd.Parameters.AddWithValue("@SecurityGroup", loggedInUser.Sicherheitsgruppe);
+                        cmd.Parameters.AddWithValue("@gruppe", loggedInUser.Sicherheitsgruppe);
                         cmd.Parameters.AddWithValue("@Tag", DateTime.Now.Day);
                         cmd.Parameters.AddWithValue("@Monat", DateTime.Now.Month);
                         cmd.Parameters.AddWithValue("@Jahr", DateTime.Now.Year);
