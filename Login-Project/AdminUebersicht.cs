@@ -93,7 +93,7 @@ namespace Login_Project
                 return;
             }
 
-            User userToModify = Register.registerUser.FirstOrDefault(u => u.Username == currentUsername);
+            User userToModify = SearchUserInDatabase(currentUsername);
 
             if (userToModify != null)
             {

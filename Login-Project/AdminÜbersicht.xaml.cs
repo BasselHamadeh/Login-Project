@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -63,6 +64,11 @@ namespace Login_Project
             {
                 ButtonBenutzerSuche_Click(sender, e);
             }
+        }
+
+        private void ButtonÜbernehmen_Click(object sender, EventArgs e)
+        {
+            AdminUebersicht.NewUsername(this);
         }
 
         private void TextBoxNeuerBenutzername_KeyDown(object sender, KeyEventArgs e)
